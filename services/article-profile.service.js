@@ -2,7 +2,7 @@ const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
 const constants = require('../shared/constants');
 
-class PetProfileService {
+class ArticleProfileService {
     constructor() { }
 
     async find() {
@@ -44,4 +44,4 @@ class PetProfileService {
         return { response: true };
     }
 }
-module.exports = PetProfileService;
+module.exports = ArticleProfileService;

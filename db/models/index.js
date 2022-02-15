@@ -8,6 +8,7 @@ const { Allergy, AllergiesSchema } = require('./allergy.model');
 const { Medication, MedicationSchema } = require('./medication.model');
 const { PreexistingDisease, PreexistingDiseasesSchema } = require('./preexisting-disease.model');
 const { ProfileType, ProfileTypeSchema } = require('./profile-type.model');
+const { PinIdProfile, PinIdProfileSchema } = require('./pin-id.model');
 
 function setupModels(sequelize) {
     User.init(UserSchema, User.config(sequelize));
@@ -20,6 +21,7 @@ function setupModels(sequelize) {
     Medication.init(MedicationSchema, Medication.config(sequelize));
     PreexistingDisease.init(PreexistingDiseasesSchema, PreexistingDisease.config(sequelize));
     ProfileType.init(ProfileTypeSchema, ProfileType.config(sequelize));
+    PinIdProfile.init(PinIdProfileSchema, PinIdProfile.config(sequelize));
 
     User.associate(sequelize.models);
     Profile.associate(sequelize.models);
@@ -31,6 +33,7 @@ function setupModels(sequelize) {
     Medication.associate(sequelize.models);
     PreexistingDisease.associate(sequelize.models);
     ProfileType.associate(sequelize.models);
+    PinIdProfile.associate(sequelize.models);
 }
 
 module.exports = setupModels;

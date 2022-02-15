@@ -1,5 +1,5 @@
 const express = require('express');
-const PetProfileService = require('../services/pet-profile.service')
+const PetProfileService = require('../services/pet-profile.service');
 const {
     getPetProfileSchemaById,
     createPetProfileSchema,

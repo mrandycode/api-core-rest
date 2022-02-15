@@ -1,5 +1,4 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { PROFILE_TABLE } = require('./profile.model');
 const PROFILE_TYPE_TABLE = 'profile_types';
 
 const ProfileTypeSchema = {
