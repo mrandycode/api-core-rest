@@ -25,10 +25,10 @@ router.get('/',
 );
 
 router.get('/:id',
-    passport.authenticate('jwt', { session: false }),
-    checkApiKey,
-    checkRoles('admin', 'customer'),
-    validationHandler(getPersonalProfileSchemaById, 'body'),
+    // passport.authenticate('jwt', { session: false }),
+    // checkApiKey,
+    // checkRoles('admin', 'customer'),
+    validationHandler(getPersonalProfileSchemaById),
     async (req, res, next) => {
         const { id } = req.params;
         try {
@@ -54,14 +54,14 @@ router.post('/',
     }
 );
 
-router.patch('/:id',
-    validationHandler(getPersonalProfileSchemaById, 'params'),
-    validationHandler(updatePersonalProfileSchema, 'body'),
-    checkRoles('admin', 'customer'),
+router.patch('/',
+    // validationHandler(getPersonalProfileSchemaById, 'params'),
+    // validationHandler(updatePersonalProfileSchema, 'body'),
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
             const body = req.body;
+            const id = body['id'];
             res.status(201).json(await service.update(id, body));
         } catch (error) {
             next(error);

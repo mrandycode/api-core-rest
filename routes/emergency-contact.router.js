@@ -36,10 +36,10 @@ router.get('/:id',
 );
 
 router.post('/',
-    passport.authenticate('jwt', { session: false }),
-    validationHandler(createEmergencyContactSchema, 'body'),
-    checkApiKey,
-    checkRoles('admin', 'customer'),
+    // passport.authenticate('jwt', { session: false }),
+    // validationHandler(createEmergencyContactSchema, 'body'),
+    // checkApiKey,
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
             const body = req.body;
@@ -50,14 +50,14 @@ router.post('/',
     }
 );
 
-router.patch('/:id',
-    validationHandler(getEmergencyContactSchemaById, 'params'),
-    validationHandler(updateEmergencyContactSchema, 'body'),
-    checkRoles('admin', 'customer'),
+router.patch('/',
+    // validationHandler(getEmergencyContactSchemaById, 'params'),
+    // validationHandler(updateEmergencyContactSchema, 'body'),
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
             const body = req.body;
+            const id = body['id'];
             res.status(201).json(await service.update(id, body));
         } catch (error) {
             next(error);

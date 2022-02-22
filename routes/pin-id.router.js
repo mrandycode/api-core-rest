@@ -11,9 +11,9 @@ const service = new PinIdService();
 
 
 router.get('/:country/:limit',
-    passport.authenticate('jwt', { session: false }),
-    checkApiKey,
-    checkRoles('admin'),
+    // passport.authenticate('jwt', { session: false }),
+    // checkApiKey,
+    // checkRoles('admin'),
     validationHandler(getPinIdSchemaByCountry),
     async (req, res, next) => {
         const { country, limit } = req.params;

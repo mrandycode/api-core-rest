@@ -20,6 +20,38 @@ router.get('/',
     }
 );
 
+router.post('/only',
+    // passport.authenticate('jwt', { session: false }),
+    // checkApiKey,
+    // checkRoles('admin', 'customer'),
+    async (req, res, next) => {
+        console.log(req.body, 'req in api-rest ONLY');
+        const body = req.body;
+        try {
+            res.json(await service.findOnlyProfile(body));
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+router.post('/pin-id',
+    // passport.authenticate('jwt', { session: false }),
+    // checkApiKey,
+    // checkRoles('admin', 'customer'),
+    async (req, res, next) => {
+        console.log(req.body, 'req in api-rest');
+        const body = req.body;
+        try {
+            res.json(await service.findByPinId(body));
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+
+
 router.get('/:id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
