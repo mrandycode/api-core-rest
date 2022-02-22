@@ -11,7 +11,8 @@ const PinIdProfileSchema = {
     },
     country: {
         allowNull: false,
-        type: DataTypes.STRING(4)
+        type: DataTypes.STRING(4),
+        unique: 'pin_id_profiles_IDX02'
     },
     pinProfile: {
         field: 'pin_profile',
@@ -25,6 +26,7 @@ const PinIdProfileSchema = {
         allowNull: false,
         type: DataTypes.STRING(7),
         unique: 'uniquePinId_IDX01',
+        unique:'pin_id_profiles_IDX02',
         comment: 'ID generado automáticamente'
     },
     status: {

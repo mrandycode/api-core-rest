@@ -30,10 +30,16 @@ class AllergyService {
         // }
     }
 
-    async update(id, changes) {
+    async update(id, request) {
         const allergy = await this.findOne(id);
-        const response = await allergy.update(changes);
-        return response;
+        if (allergy) {
+            const response = await allergy.update(request,
+                { where: { id: request.id } }
+            );
+            return response;
+        } else {
+            return [0]
+        }
     }
 
     async delete(id) {

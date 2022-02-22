@@ -8,13 +8,15 @@ const image = Joi.string();
 const birthday = Joi.string();
 const genre = Joi.string();
 const bloodType = Joi.string().max(20);
+const eyeColor = Joi.string().max(20);
 const mobile = Joi.string().max(50);
 const phone = Joi.string().max(50);
 const email = Joi.string().email().max(64);
+const address = Joi.string().max(1000);
 const profileId = Joi.number().integer();
 
 const getPersonalProfileSchemaById = Joi.object({
-    id: id
+    id: id.required()
 });
 
 const createPersonalProfileSchema = Joi.object({
@@ -25,9 +27,11 @@ const createPersonalProfileSchema = Joi.object({
     birthday: birthday.required(),
     genre,
     bloodType,
+    eyeColor,
     mobile,
     phone,
     email,
+    address,
     profileId: profileId.required()
 });
 
@@ -38,9 +42,11 @@ const updatePersonalProfileSchema = Joi.object({
     birthday,
     genre,
     bloodType,
+    eyeColor,
     mobile,
     phone,
-    email
+    email,
+    address
 });
 
 

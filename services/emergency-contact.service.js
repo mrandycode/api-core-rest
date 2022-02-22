@@ -31,10 +31,16 @@ class EmergencyContactService {
         // }
     }
 
-    async update(id, changes) {
+    async update(id, request) {
         const emergencyContact = await this.findOne(id);
-        const response = await emergencyContact.update(changes);
-        return response;
+        if (emergencyContact) {
+            const response = await emergencyContact.update(request,
+                { where: { id: request.id } }
+            );
+            return response;
+        } else {
+            return [0]
+        }
     }
 
     async delete(id) {

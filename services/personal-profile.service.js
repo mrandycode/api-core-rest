@@ -32,10 +32,15 @@ class PersonalProfileService {
         // }
     }
 
-    async update(id, changes) {
+    async update(id, request) {
         const personalProfile = await this.findOne(id);
-        const response = await personalProfile.update(changes);
-        return response;
+        if (personalProfile) {
+            const response = await models.PersonalProfile.update(request,
+                { where: { id: request.id } });
+            return response;
+        } else {
+            return [0]
+        }
     }
 
     async delete(id) {

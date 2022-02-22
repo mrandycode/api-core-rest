@@ -22,18 +22,21 @@ class PreexistingDiseasesService {
     }
 
     async create(data) {
-
-        // const profile = await this.findOne(data.id);
-        // if (!profile) {
-        const newPreexistingDiseases = await models.PreexistingDiseases.create(data);
+        const newPreexistingDiseases = await models.PreexistingDisease.create(data);
         return newPreexistingDiseases;
-        // }
     }
 
-    async update(id, changes) {
+    async update(id, request) {
         const preexistingDisease = await this.findOne(id);
-        const response = await preexistingDisease.update(changes);
-        return response;
+        if (preexistingDisease) {
+            const response = await preexistingDisease.update(request,
+                { where: { id: request.id } }
+            );
+            return response;
+        } else {
+            return [0];
+        }
+
     }
 
     async delete(id) {

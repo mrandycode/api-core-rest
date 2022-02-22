@@ -30,10 +30,17 @@ class MedicationService {
         // }
     }
 
-    async update(id, changes) {
+    async update(id, request) {
         const medication = await this.findOne(id);
-        const response = await medication.update(changes);
-        return response;
+        if (medication) {
+            const response = await medication.update(request,
+                { where: { id: request.id } }
+            );
+            return response;
+        }else{
+            return [0];
+        }
+
     }
 
     async delete(id) {

@@ -1,5 +1,5 @@
 const boom = require('@hapi/boom');
-const { models } = require('../libs/sequelize');
+const { models, Op } = require('../libs/sequelize');
 const constants = require('../shared/constants');
 
 class ProfileService {
@@ -17,6 +17,17 @@ class ProfileService {
         return response;
     }
 
+    async findOnlyProfile(body) {
+        const profile = await models.Profile.findOne({
+            where: {
+                [Op.and]: [
+                    { qrId: body.qrId }, { country: body.country }
+                ]
+            }
+        });
+        return profile;
+    }
+
     async findOne(id) {
         const profile = await models.Profile.findByPk(id, {
             include: [
@@ -25,6 +36,25 @@ class ProfileService {
                 { association: 'petProfile', include: constants.PET_PROFILE },
                 { association: 'articleProfile', include: constants.ARTICLE_PROFILE }
             ]
+        });
+        if (!profile) {
+            throw boom.notFound('Profile not found');
+        }
+        return profile;
+    }
+
+    async findByPinId(body) {
+        const profile = await models.Profile.findOne({
+            include: [
+                { association: 'user' },
+                { association: 'personalProfile', include: constants.PERSONAL_PROFILE },
+                { association: 'petProfile', include: constants.PET_PROFILE },
+                { association: 'articleProfile', include: constants.ARTICLE_PROFILE }
+            ], where: {
+                [Op.and]: [
+                    { qrId: body.qrId }, { country: body.country }
+                ]
+            }
         });
         if (!profile) {
             throw boom.notFound('Profile not found');

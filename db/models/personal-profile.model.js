@@ -36,6 +36,10 @@ const PersonalProfileSchema = {
         type: DataTypes.STRING(20),
         field: 'blood_type',
     },
+    eyeColor: {
+        type: DataTypes.STRING(20),
+        field: 'eye_color',
+    },
     mobile: {
         type: DataTypes.STRING(50),
     },
@@ -45,6 +49,9 @@ const PersonalProfileSchema = {
     email: {
         type: DataTypes.STRING(64),
         isEmail: true,
+    },
+    address: {
+        type: DataTypes.STRING(1000),
     },
     vaccineCovid: {
         type: DataTypes.STRING(20),
