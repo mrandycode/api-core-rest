@@ -20,6 +20,10 @@ const PetProfileSchema = {
     image: {
         type: DataTypes.STRING
     },
+    license:{
+        type: DataTypes.STRING
+
+    },
     birthday: {
         type: DataTypes.STRING(10)
     },

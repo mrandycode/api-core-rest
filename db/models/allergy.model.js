@@ -1,5 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { PROFILE_TABLE } = require('../models/profile.model');
+const { PERSONAL_PROFILE_TABLE } = require('../models/personal-profile.model');
+const { PET_PROFILE_TABLE } = require('../models/pet-profile.model');
 const ALLERGIES_TABLE = 'allergies';
 
 const AllergiesSchema = {
@@ -33,12 +34,23 @@ const AllergiesSchema = {
         field: 'updated_at',
         defaultValue: Sequelize.NOW
     },
-    profileId: {
-        field: 'profile_id',
+    personalProfileId: {
+        field: 'personal_profile_id',
         type: DataTypes.INTEGER,
         unique: false,
         references: {
-            model: PROFILE_TABLE,
+            model: PERSONAL_PROFILE_TABLE,
+            key: 'id'
+        }
+        // onUpdate: 'CASCADE',
+        // onDelete: 'SET NULL'
+    },
+    petProfileId: {
+        field: 'pet_profile_id',
+        type: DataTypes.INTEGER,
+        unique: false,
+        references: {
+            model: PET_PROFILE_TABLE,
             key: 'id'
         }
         // onUpdate: 'CASCADE',
@@ -48,7 +60,8 @@ const AllergiesSchema = {
 
 class Allergy extends Model {
     static associate(models) {
-        this.belongsTo(models.Profile, { as: 'profile' });
+        this.belongsTo(models.PersonalProfile, { as: 'personalProfile' });
+        this.belongsTo(models.PetProfile, { as: 'petProfile' });
     }
 
     static config(sequelize) {

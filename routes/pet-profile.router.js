@@ -12,9 +12,9 @@ const passport = require('passport');
 const service = new PetProfileService();
 
 router.get('/',
-    passport.authenticate('jwt', { session: false }),
-    checkApiKey,
-    checkRoles('admin', 'customer'),
+    // passport.authenticate('jwt', { session: false }),
+    // checkApiKey,
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
             res.json(await service.find());
@@ -25,10 +25,10 @@ router.get('/',
 );
 
 router.get('/:id',
-    passport.authenticate('jwt', { session: false }),
-    checkApiKey,
-    checkRoles('admin', 'customer'),
-    validationHandler(getPetProfileSchemaById, 'body'),
+    // passport.authenticate('jwt', { session: false }),
+    // checkApiKey,
+    // checkRoles('admin', 'customer'),
+    // validationHandler(getPetProfileSchemaById, 'body'),
     async (req, res, next) => {
         const { id } = req.params;
         try {
@@ -40,10 +40,10 @@ router.get('/:id',
 );
 
 router.post('/',
-    passport.authenticate('jwt', { session: false }),
-    validationHandler(createPetProfileSchema, 'body'),
-    checkApiKey,
-    checkRoles('admin', 'customer'),
+    // passport.authenticate('jwt', { session: false }),
+    // validationHandler(createPetProfileSchema, 'body'),
+    // checkApiKey,
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
             const body = req.body;
@@ -54,14 +54,14 @@ router.post('/',
     }
 );
 
-router.patch('/:id',
-    validationHandler(getPetProfileSchemaById, 'params'),
-    validationHandler(updatePetProfileSchema, 'body'),
-    checkRoles('admin', 'customer'),
+router.patch('/',
+    // validationHandler(getPetProfileSchemaById, 'params'),
+    // validationHandler(updatePetProfileSchema, 'body'),
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
             const body = req.body;
+            const id = body['id'];
             res.status(201).json(await service.update(id, body));
         } catch (error) {
             next(error);

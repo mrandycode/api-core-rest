@@ -17,11 +17,6 @@ const createProfileSchema = Joi.object({
     pinId: pinId.required(),
     profileType: profileType.required(),
     userId: userId.required()
-    // user: Joi.object({
-    //     id: id.required(),
-    //     country: country.required(),
-    //     role: role.required()
-    // })
 });
 
 const updateProfileSchema = Joi.object({
@@ -29,11 +24,6 @@ const updateProfileSchema = Joi.object({
     qrId,
     pinId,
     userId
-    // user: Joi.object({
-    //     id: id.required(),
-    //     country: country.required(),
-    //     role: role.required()
-    // })
 });
 
 module.exports = { getProfileSchema, createProfileSchema, updateProfileSchema }

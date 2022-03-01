@@ -6,14 +6,14 @@ class AllergyService {
 
     async find() {
         const response = await models.Allergy.findAll({
-            include: ['profile']
+            // include: ['profile']
         });
         return response;
     }
 
     async findOne(id) {
         const Allergy = await models.Allergy.findByPk(id, {
-            include: ['profile']
+            // include: ['profile']
         });
         if (!Allergy) {
             throw boom.notFound('Allergy not found');

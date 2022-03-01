@@ -1,5 +1,5 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { PRESONAL_PROFILE_TABLE } = require('../models/personal-profile.model');
+const { PERSONAL_PROFILE_TABLE } = require('../models/personal-profile.model');
 const { PET_PROFILE_TABLE } = require('../models/pet-profile.model');
 const EMERGENCY_CONTACTS_TABLE = 'emergency_contacts';
 
@@ -54,7 +54,7 @@ const EmergencyContactSchema = {
         type: DataTypes.INTEGER,
         unique: false,
         references: {
-            model: PRESONAL_PROFILE_TABLE,
+            model: PERSONAL_PROFILE_TABLE,
             key: 'id'
         }
         // onUpdate: 'CASCADE',

@@ -24,9 +24,9 @@ const createEmergencyContactSchema = Joi.object({
     phone,
     address,
     email,
-    personalProfileId: personalProfileId,
-    petProfileId: petProfileId,
-    articleProfileId: articleProfileId
+    personalProfileId,
+    petProfileId,
+    articleProfileId
 });
 
 const updateEmergencyContactSchema = Joi.object({
