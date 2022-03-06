@@ -8,9 +8,9 @@ const passport = require('passport');
 const service = new UserService();
 
 router.get('/',
-    passport.authenticate('jwt', { session: false }),
-    checkApiKey,
-    checkRoles('admin', 'customer'),
+    // passport.authenticate('jwt', { session: false }),
+    // checkApiKey,
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
             res.json(await service.find());
@@ -21,10 +21,10 @@ router.get('/',
 );
 
 router.get('/:id',
-    passport.authenticate('jwt', { session: false }),
-    validationHandler(getUserSchemaById),
-    checkApiKey,
-    checkRoles('admin', 'customer'),
+    // passport.authenticate('jwt', { session: false }),
+    // validationHandler(getUserSchemaById),
+    // checkApiKey,
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
         const { id } = req.params;
         try {

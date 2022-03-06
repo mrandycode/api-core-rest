@@ -4,15 +4,17 @@ const id = Joi.number().integer();
 const country = Joi.string().max(4);
 const name = Joi.string().max(100);
 const lastName = Joi.string().max(100);
-const image = Joi.string();
-const birthday = Joi.string();
-const genre = Joi.string();
-const bloodType = Joi.string().max(20);
-const eyeColor = Joi.string().max(20);
-const mobile = Joi.string().max(50);
-const phone = Joi.string().max(50);
-const email = Joi.string().email().max(64);
-const address = Joi.string().max(1000);
+const image = Joi.string().optional().allow('');
+const birthday = Joi.string().optional().allow('');
+const genre = Joi.string().optional().allow('');
+const bloodType = Joi.string().optional().allow('').max(20);
+const eyeColor = Joi.string().optional().allow('').max(20);
+const mobile = Joi.string().optional().allow('').max(50);
+const phone = Joi.string().optional().allow('').max(50);
+const email = Joi.string().optional().allow('').email().max(64);
+const address = Joi.string().optional().allow('').max(1000);
+const vaccineCovid = Joi.string().optional().allow('').max(20);
+const doseQtyCovid = Joi.string().optional().allow('').max(20);
 const profileId = Joi.number().integer();
 
 const getPersonalProfileSchemaById = Joi.object({
@@ -20,6 +22,7 @@ const getPersonalProfileSchemaById = Joi.object({
 });
 
 const createPersonalProfileSchema = Joi.object({
+    id: id.required(),
     country: country.required(),
     name: name.required(),
     lastName: lastName.required(),
@@ -32,6 +35,8 @@ const createPersonalProfileSchema = Joi.object({
     phone,
     email,
     address,
+    vaccineCovid,
+    doseQtyCovid,
     profileId: profileId.required()
 });
 
@@ -46,7 +51,9 @@ const updatePersonalProfileSchema = Joi.object({
     mobile,
     phone,
     email,
-    address
+    address,
+    vaccineCovid,
+    doseQtyCovid,
 });
 
 

@@ -20,10 +20,22 @@ class PinIdService {
     async findByCountry(country, limit) {
         const response = await models.PinIdProfile.findAll({
             where: { country }, limit: limit
-        }, {order: [['id', 'DESC']]});
-        
+        }, { order: [['id', 'DESC']] });
+
         if (!response) {
             throw boom.notFound('No hay registros para este pais');
+        }
+
+        return response;
+    }
+
+    async findByPinId(idProfile, pinProfile) {
+        const response = await models.PinIdProfile.findOne({
+            where: { pinProfile, idProfile }
+        });
+
+        if (!response) {
+            throw boom.notFound('No hay registros');
         }
 
         return response;

@@ -8,9 +8,9 @@ const passport = require('passport');
 const service = new ProfileService();
 
 router.get('/',
-    passport.authenticate('jwt', { session: false }),
-    checkApiKey,
-    checkRoles('admin', 'customer'),
+    // passport.authenticate('jwt', { session: false }),
+    // checkApiKey,
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
             res.json(await service.find());
@@ -53,9 +53,9 @@ router.post('/pin-id',
 
 
 router.get('/:id',
-    passport.authenticate('jwt', { session: false }),
-    checkApiKey,
-    checkRoles('admin', 'customer'),
+    // passport.authenticate('jwt', { session: false }),
+    // checkApiKey,
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
         const { id } = req.params;
         try {
@@ -67,10 +67,10 @@ router.get('/:id',
 );
 
 router.post('/',
-    passport.authenticate('jwt', { session: false }),
+    // passport.authenticate('jwt', { session: false }),
     validationHandler(createProfileSchema, 'body'),
-    checkApiKey,
-    checkRoles('admin', 'customer'),
+    // checkApiKey,
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
             const body = req.body;
