@@ -24,12 +24,13 @@ class PersonalProfileService {
     }
 
     async create(data) {
-
-        // const profile = await this.findOne(data.id);
-        // if (!profile) {
+        let response;
         const newPersonalProfile = await models.PersonalProfile.create(data);
-        return newPersonalProfile;
-        // }
+        if (newPersonalProfile) {
+            response = await this.findOne(newPersonalProfile.id);
+        }
+        return response;
+
     }
 
     async update(id, request) {

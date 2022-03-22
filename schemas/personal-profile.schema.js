@@ -12,9 +12,12 @@ const eyeColor = Joi.string().optional().allow('').max(20);
 const mobile = Joi.string().optional().allow('').max(50);
 const phone = Joi.string().optional().allow('').max(50);
 const email = Joi.string().optional().allow('').email().max(64);
+const city = Joi.string().optional().allow('').max(100);
+const state = Joi.string().optional().allow('').max(100);
+const zip = Joi.string().optional().allow('').max(20);
 const address = Joi.string().optional().allow('').max(1000);
 const vaccineCovid = Joi.string().optional().allow('').max(20);
-const doseQtyCovid = Joi.string().optional().allow('').max(20);
+const doseQtyCovid = Joi.number().integer().optional().allow('').max(20);
 const profileId = Joi.number().integer();
 
 const getPersonalProfileSchemaById = Joi.object({
@@ -34,6 +37,9 @@ const createPersonalProfileSchema = Joi.object({
     mobile,
     phone,
     email,
+    city, 
+    state,
+    zip,
     address,
     vaccineCovid,
     doseQtyCovid,
@@ -51,6 +57,9 @@ const updatePersonalProfileSchema = Joi.object({
     mobile,
     phone,
     email,
+    city,
+    state,
+    zip,
     address,
     vaccineCovid,
     doseQtyCovid,

@@ -5,6 +5,14 @@ class PinIdService {
 
     constructor() { }
 
+    async findOne(id) {
+        const pinIdProfile = await models.PersonalProfile.findByPk(id);
+        if (!pinIdProfile) {
+            throw boom.notFound('Profile not found');
+        }
+        return pinIdProfile;
+    }
+
     async generate(body) {
         console.log(body, 'body in generate');
         const query = 'CALL sp_GeneratePinId (:country, :qtyRows, @res)';
@@ -29,9 +37,9 @@ class PinIdService {
         return response;
     }
 
-    async findByPinId(idProfile, pinProfile) {
+    async findByPinId(qrId, qrPin) {
         const response = await models.PinIdProfile.findOne({
-            where: { pinProfile, idProfile }
+            where: { pinProfile: qrPin, idProfile: qrId }
         });
 
         if (!response) {
@@ -40,7 +48,17 @@ class PinIdService {
 
         return response;
     }
-}
 
+    async update(request) {
+        const pinId = await this.findOne(request['id']);
+        if (pinId) {
+            const response = await models.PinIdProfile.update(request,
+                { where: { id: request['id'] } });
+            return response;
+        } else {
+            return [0]
+        }
+    }
+}
 
 module.exports = PinIdService;

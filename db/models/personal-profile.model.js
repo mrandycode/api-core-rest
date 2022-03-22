@@ -50,6 +50,15 @@ const PersonalProfileSchema = {
         type: DataTypes.STRING(64),
         isEmail: true,
     },
+    city: {
+        type: DataTypes.STRING(100),
+    },
+    state: {
+        type: DataTypes.STRING(100),
+    },
+    zip: {
+        type: DataTypes.STRING(10),
+    },
     address: {
         type: DataTypes.STRING(1000),
     },

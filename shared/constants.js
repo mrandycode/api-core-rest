@@ -3,7 +3,9 @@ module.exports = Object.freeze({
         'emergencyContacts',
         'preexistingDiseases',
         'allergies',
-        'medications'],
+        'medications',
+        'profile'
+    ],
     PET_PROFILE: [
         'emergencyContacts',
         'preexistingDiseases',
@@ -13,5 +15,5 @@ module.exports = Object.freeze({
     EMERGENCY_CONTACTS: [
         'personalProfile',
         'petProfile',
-        'articleProfile'],
+        'articleProfile']
 });

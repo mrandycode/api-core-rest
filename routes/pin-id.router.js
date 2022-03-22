@@ -3,7 +3,8 @@ const PinIdService = require('../services/pin-id.service');
 const {
     getPinIdSchemaByCountry,
     generatePinIdSchema,
-    getPinIdSchema } = require('../schemas/pin-id.schema');
+    getPinIdSchema, 
+    updatePinIdSchema} = require('../schemas/pin-id.schema');
 const validationHandler = require('../middlewares/validator.handler');
 const router = express.Router();
 const { checkApiKey, checkRoles } = require('../middlewares/auth.handler');
@@ -42,7 +43,6 @@ router.post('/start',
 );
 
 router.get('/generate-qr/:country/:limit',
-
     validationHandler(getPinIdSchemaByCountry),
     async (req, res, next) => {
         const { country, limit } = req.params;
@@ -69,6 +69,21 @@ router.post('/',
         try {
             // const response = await service.findByPinId(id, pin);      
             res.json(await service.findByPinId(id, pin));
+        } catch (error) {
+            next(error);
+        }
+    }
+)
+
+router.patch('/',
+    validationHandler(updatePinIdSchema, 'body'),
+    async (req, res, next) => {
+        const body = req.body;
+        // const id = body['idProfile'];
+        // const pin = body['pinProfile'];
+        try {
+            // const response = await service.findByPinId(id, pin);      
+            res.json(await service.update(body));
         } catch (error) {
             next(error);
         }

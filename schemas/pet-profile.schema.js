@@ -11,6 +11,10 @@ const breed = Joi.string().optional().allow('').max(100);
 const color = Joi.string().optional().allow('').max(50);
 const age = Joi.string().optional().allow('').max(20);
 const reward = Joi.boolean().optional().allow(false);
+const city = Joi.string().optional().allow('').max(100);
+const state = Joi.string().optional().allow('').max(100);
+const zip = Joi.string().optional().allow('').max(20);
+const address = Joi.string().optional().allow('').max(1000);
 const profileId = Joi.number().integer();
 
 const getPetProfileSchemaById = Joi.object({
@@ -28,6 +32,10 @@ const createPetProfileSchema = Joi.object({
     color,
     age,
     reward,
+    city,
+    state,
+    zip,
+    address,
     profileId: profileId.required()
 });
 
@@ -40,6 +48,10 @@ const updatePetProfileSchema = Joi.object({
     color,
     age,
     reward,
+    city,
+    state,
+    zip,
+    address,
 });
 
 

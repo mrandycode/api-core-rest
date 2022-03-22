@@ -42,6 +42,18 @@ const PetProfileSchema = {
     reward: {
         type: DataTypes.BOOLEAN
     },
+    city: {
+        type: DataTypes.STRING(100),
+    },
+    state: {
+        type: DataTypes.STRING(100),
+    },
+    zip: {
+        type: DataTypes.STRING(10),
+    },
+    address: {
+        type: DataTypes.STRING(1000),
+    },
     createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
