@@ -51,7 +51,7 @@ class PinIdService {
 
     async update(request) {
         // const pinId = await this.findOne(request['id']);
-        console.info(pinId, 'pinId, update');
+        console.info(request, 'pinId, update');
         // if (pinId) {
             const response = await models.PinIdProfile.update(request,
                 { where: { id: request['id'] } });
