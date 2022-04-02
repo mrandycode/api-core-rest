@@ -31,7 +31,7 @@ class PinIdService {
         }, { order: [['id', 'DESC']] });
 
         if (!response) {
-            throw boom.notFound('No hay registros para este pais');
+            throw boom.notFound('NOT_FOUND');
         }
 
         return response;
@@ -41,9 +41,8 @@ class PinIdService {
         const response = await models.PinIdProfile.findOne({
             where: { pinProfile: qrPin, idProfile: qrId }
         });
-
         if (!response) {
-            throw boom.notFound('No hay registros');
+            throw boom.notFound('NOT_FOUND');
         }
 
         return response;
