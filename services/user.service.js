@@ -1,8 +1,6 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
 const constants = require('../shared/constants');
-const utils = require('../shared/utils');
-
 class UserService {
     constructor() { }
 
@@ -24,7 +22,7 @@ class UserService {
         return response;
     }
 
-    async findOne(id, idToken) {
+    async findOne(id) {
         const user = await models.User.findByPk(id, {
             include: [
                 {
@@ -41,8 +39,6 @@ class UserService {
             throw boom.notFound('User not found');
         }
     
-        utils.userTokenValidate(id, idToken);
-
         delete user.dataValues.password;
         return user;
     }
