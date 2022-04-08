@@ -37,9 +37,11 @@ class ProfileService {
                 { association: 'articleProfile', include: constants.ARTICLE_PROFILE }
             ]
         });
+
         if (!profile) {
             throw boom.notFound('Profile not found');
         }
+        delete profile.dataValues.user.dataValues.password;
         return profile;
     }
 
@@ -59,6 +61,7 @@ class ProfileService {
         if (!profile) {
             throw boom.notFound('Profile not found');
         }
+        delete profile.dataValues.user.password;
         return profile;
     }
 

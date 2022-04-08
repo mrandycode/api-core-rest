@@ -47,6 +47,7 @@ const createPersonalProfileSchema = Joi.object({
 });
 
 const updatePersonalProfileSchema = Joi.object({
+    id,
     name,
     lastName,
     image,
@@ -63,6 +64,7 @@ const updatePersonalProfileSchema = Joi.object({
     address,
     vaccineCovid,
     doseQtyCovid,
+    profileId
 });
 
 

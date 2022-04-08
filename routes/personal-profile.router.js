@@ -1,20 +1,23 @@
 const express = require('express');
-const PersonalProfileService = require('../services/personal-profile.service')
+const PersonalProfileService = require('../services/personal-profile.service');
+const ProfileService = require('../services/profile.service');
 const {
     getPersonalProfileSchemaById,
     createPersonalProfileSchema,
     updatePersonalProfileSchema
 } = require('../schemas/personal-profile.schema');
 const validationHandler = require('../middlewares/validator.handler');
+const utils = require('../shared/utils');
 const router = express.Router();
 const { checkApiKey, checkRoles } = require('../middlewares/auth.handler');
 const passport = require('passport');
 const service = new PersonalProfileService();
+const profileService = new ProfileService();
 
 router.get('/',
-    // passport.authenticate('jwt', { session: false }),
-    // checkApiKey,
-    // checkRoles('admin', 'customer'),
+    passport.authenticate('jwt', { session: false }),
+    checkApiKey,
+    checkRoles('admin'),
     async (req, res, next) => {
         try {
             res.json(await service.find());
@@ -25,14 +28,16 @@ router.get('/',
 );
 
 router.get('/:id',
-    // passport.authenticate('jwt', { session: false }),
-    // checkApiKey,
-    // checkRoles('admin', 'customer'),
+    passport.authenticate('jwt', { session: false }),
+    checkApiKey,
+    checkRoles('admin', 'customer'),
     validationHandler(getPersonalProfileSchemaById),
     async (req, res, next) => {
         const { id } = req.params;
         try {
-            res.json(await service.findOne(id));
+            const rta = await service.findOne(id);
+            utils.userTokenValidate(rta.profile.userId, req.user.sub);
+            res.json(rta);
         } catch (error) {
             next(error);
         }
@@ -40,13 +45,14 @@ router.get('/:id',
 );
 
 router.post('/',
-    // passport.authenticate('jwt', { session: false }),
+    passport.authenticate('jwt', { session: false }),
     validationHandler(createPersonalProfileSchema, 'body'),
-    // checkApiKey,
-    // checkRoles('admin', 'customer'),
+    checkApiKey,
+    checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
             const body = req.body;
+            res.statusMessage = req.t('CREATED')
             res.status(201).json(await service.create(body));
         } catch (error) {
             next(error);
@@ -55,13 +61,17 @@ router.post('/',
 );
 
 router.patch('/',
-    // validationHandler(getPersonalProfileSchemaById, 'params'),
-    // validationHandler(updatePersonalProfileSchema, 'body'),
-    // checkRoles('admin', 'customer'),
+    passport.authenticate('jwt', { session: false }),
+    validationHandler(updatePersonalProfileSchema, 'body'),
+    checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
             const body = req.body;
-            const id = body['id'];
+            const { id, profileId } = body;
+            const profile = await profileService.findOne(profileId);
+            const userId = profile.user.id;
+            utils.userTokenValidate(userId, req.user.sub);
+            res.statusMessage = req.t('UPDATED');
             res.status(201).json(await service.update(id, body));
         } catch (error) {
             next(error);

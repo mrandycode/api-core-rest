@@ -10,7 +10,7 @@ const config = {
     dbName: process.env.DB_NAME,
     dbHost: process.env.DB_HOST,
     jwtSecret: process.env.JWT_SECRET,
-    apikey: process.env.API_KEY,
+    apiKey: process.env.API_KEY,
     corsWhiteList: process.env.CORS_WHITE_LIST,
 };
 

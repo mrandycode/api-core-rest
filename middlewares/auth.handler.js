@@ -3,10 +3,10 @@ const { config } = require('./../config/config');
 
 function checkApiKey(req, res, next) {
   const apiKey = req.headers['api-key'];
-  if (apiKey  === config.apikey) {
+  if (apiKey === config.apiKey) {
     next();
   } else {
-    next(boom.unauthorized());
+    next(boom.unauthorized('UNAUTHORIZED'));
   }
 }
 
@@ -16,9 +16,9 @@ function checkRoles(...roles) {
     if (roles.includes(user.role)) {
       next();
     } else {
-      next(boom.unauthorized());
+      next(boom.unauthorized('UNAUTHORIZED'));
     }
   }
 }
 
-module.exports = { checkApiKey , checkRoles }
+module.exports = { checkApiKey, checkRoles }
