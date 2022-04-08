@@ -4,13 +4,14 @@ const { getUserSchemaById } = require('../schemas/user.schema');
 const validationHandler = require('../middlewares/validator.handler');
 const router = express.Router();
 const { checkApiKey, checkRoles } = require('../middlewares/auth.handler');
+const utils = require('../shared/utils');
 const passport = require('passport');
 const service = new UserService();
 
 router.get('/',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    checkRoles('admin'),
     async (req, res, next) => {
         try {
             res.json(await service.find());
@@ -28,7 +29,8 @@ router.get('/:id',
     async (req, res, next) => {
         const { id } = req.params;
         try {
-            res.json(await service.findOne(id, req.user.sub));
+            utils.userTokenValidate(id, req.user.sub);
+            res.json(await service.findOne(id));
         } catch (error) {
             next(error);
         }
