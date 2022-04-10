@@ -1,5 +1,5 @@
 const constants = require('../shared/constants');
-const boom = require('@hapi/boom');
+
 
 // Para usar estos métodos es importante que se mapeen los
 // tags en los archivos translation.json
@@ -9,7 +9,7 @@ function getErrorByPathOrm(errors, req) {
         const message = constants.ORM_VALIDATION.find((res) =>
             res.path === error.path
             && res.validatorKey === error.validatorKey);
-        return error.message = req.t(message.translateKe);
+        return error.message = req.t('UNAUTHORIZED');
     });
     return errors;
 }
