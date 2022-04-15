@@ -24,18 +24,23 @@ class ArticleProfileService {
     }
 
     async create(data) {
-
-        // const profile = await this.findOne(data.id);
-        // if (!profile) {
+        let response;
         const newArticleProfile = await models.ArticleProfile.create(data);
-        return newArticleProfile;
-        // }
+        if (newArticleProfile) {
+            response = await this.findOne(newPersonalProfile.id);
+        }
+        return response;
     }
 
-    async update(id, changes) {
+    async update(id, request) {
         const articleProfile = await this.findOne(id);
-        const response = await articleProfile.update(changes);
-        return response;
+        if (articleProfile) {
+            const response = await models.ArticleProfile.update(request,
+                { where: { id: request.id } });
+            return response;
+        } else {
+            return [0];
+        }
     }
 
     async delete(id) {

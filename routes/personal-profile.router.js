@@ -52,7 +52,7 @@ router.post('/',
     async (req, res, next) => {
         try {
             const body = req.body;
-            res.statusMessage = req.t('CREATED')
+            res.statusMessage = req.t('CREATED');
             res.status(201).json(await service.create(body));
         } catch (error) {
             next(error);

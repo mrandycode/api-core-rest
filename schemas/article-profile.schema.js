@@ -21,6 +21,7 @@ const getArticleProfileSchemaById = Joi.object({
 });
 
 const createArticleProfileSchema = Joi.object({
+    id: id.required(),
     country: country.required(),
     name: name.required(),
     brand,

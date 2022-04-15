@@ -55,7 +55,7 @@ router.post('/pin-id',
 
 
 router.get('/:id',
-    passport.authenticate('jwt', { session: false }),
+    passport.authenticate('jwt', { session: false }), 
     checkApiKey,
     checkRoles('admin', 'customer'),
     async (req, res, next) => {

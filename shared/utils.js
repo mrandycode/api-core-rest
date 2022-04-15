@@ -9,7 +9,7 @@ function getErrorByPathOrm(errors, req) {
         const message = constants.ORM_VALIDATION.find((res) =>
             res.path === error.path
             && res.validatorKey === error.validatorKey);
-        return error.message = req.t('UNAUTHORIZED');
+        return error.message = req.t(message.translateKe);
     });
     return errors;
 }

@@ -10,8 +10,9 @@ module.exports = Object.freeze({
         'emergencyContacts',
         'preexistingDiseases',
         'allergies',
-        'medications'],
-    ARTICLE_PROFILE: ['emergencyContacts'],
+        'medications',
+        'profile'],
+    ARTICLE_PROFILE: ['emergencyContacts', 'profile'],
     EMERGENCY_CONTACTS: [
         'personalProfile',
         'petProfile',
@@ -27,7 +28,7 @@ module.exports = Object.freeze({
             validatorKey: 'not_unique',
             translateKey: 'EMAIL_UNIQUE'
         }
-        
+
     ]
 },
 );

@@ -1,20 +1,23 @@
 const express = require('express');
-const AticleProfileService = require('../services/article-profile.service');
+const ArticleProfileService = require('../services/article-profile.service');
 const {
     getArticleProfileSchemaById,
     createArticleProfileSchema,
     updateArticleProfileSchema
-} = require('../schemas/article-profile.schema')
+} = require('../schemas/article-profile.schema');
+const ProfileService = require('../services/profile.service');
 const validationHandler = require('../middlewares/validator.handler');
+const utils = require('../shared/utils');
 const router = express.Router();
 const { checkApiKey, checkRoles } = require('../middlewares/auth.handler');
 const passport = require('passport');
-const service = new AticleProfileService();
+const service = new ArticleProfileService();
+const profileService = new ProfileService();
 
 router.get('/',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    checkRoles('admin'),
     async (req, res, next) => {
         try {
             res.json(await service.find());
@@ -28,11 +31,13 @@ router.get('/:id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
     checkRoles('admin', 'customer'),
-    validationHandler(getArticleProfileSchemaById, 'body'),
+    validationHandler(getArticleProfileSchemaById),
     async (req, res, next) => {
         const { id } = req.params;
         try {
-            res.json(await service.findOne(id));
+            const rta = await service.findOne(id);
+            utils.userTokenValidate(rta.profile.userId, req.user.sub);
+            res.json(rta);
         } catch (error) {
             next(error);
         }
@@ -47,6 +52,7 @@ router.post('/',
     async (req, res, next) => {
         try {
             const body = req.body;
+            res.statusMessage = req.t('CREATED');
             res.status(201).json(await service.create(body));
         } catch (error) {
             next(error);
@@ -60,8 +66,12 @@ router.patch('/:id',
     checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
-            const { id } = req.params;
             const body = req.body;
+            const { id, profileId } = body;
+            const profile = await profileService.findOne(profileId);
+            const userId = profile.user.id;
+            utils.userTokenValidate(userId, req.user.sub);
+            res.statusMessage = req.t('UPDATED');
             res.status(201).json(await service.update(id, body));
         } catch (error) {
             next(error);

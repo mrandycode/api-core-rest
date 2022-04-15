@@ -1,8 +1,6 @@
 const boom = require('@hapi/boom');
 const { models } = require('../libs/sequelize');
 const constants = require('../shared/constants');
-
-
 class PetProfileService {
     constructor() { }
 
@@ -25,18 +23,24 @@ class PetProfileService {
     }
 
     async create(data) {
-
-        // const profile = await this.findOne(data.id);
-        // if (!profile) {
+        let response;
         const newPetProfile = await models.PetProfile.create(data);
-        return newPetProfile;
-        // }
+        if (newPetProfile) {
+            response = await this.findOne(newPetProfile.id);
+        }
+        return response;
+    
     }
 
-    async update(id, changes) {
+    async update(id, request) {
         const petProfile = await this.findOne(id);
-        const response = await petProfile.update(changes);
-        return response;
+        if (petProfile) {
+            const response = await models.PetProfile.update(request,
+                { where: { id: request.id } });
+            return response;
+        } else {
+            return [0]
+        }
     }
 
     async delete(id) {
