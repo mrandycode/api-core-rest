@@ -60,8 +60,8 @@ router.post('/',
     }
 );
 
-router.patch('/:id',
-    validationHandler(getArticleProfileSchemaById, 'params'),
+router.patch('/',
+    passport.authenticate('jwt', { session: false }),
     validationHandler(updateArticleProfileSchema, 'body'),
     checkRoles('admin', 'customer'),
     async (req, res, next) => {

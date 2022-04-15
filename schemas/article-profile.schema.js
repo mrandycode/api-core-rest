@@ -39,6 +39,7 @@ const createArticleProfileSchema = Joi.object({
 });
 
 const updateArticleProfileSchema = Joi.object({
+    id,
     name,
     brand,
     model,
@@ -51,6 +52,7 @@ const updateArticleProfileSchema = Joi.object({
     state,
     zip,
     address,
+    profileId
 });
 
 
