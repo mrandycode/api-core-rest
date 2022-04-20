@@ -23,14 +23,20 @@ router.get('/',
 );
 
 router.post('/only',
-    passport.authenticate('jwt', { session: false }),
+    // passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
-        console.log(req.body, 'req in api-rest ONLY');
         const body = req.body;
         try {
-            res.json(await service.findOnlyProfile(body));
+            const profile = await service.findOnlyProfile(body);
+            if (profile) {
+                const id = profile.dataValues.id;
+                const response = await service.findOne(id);
+                delete response.dataValues.user;
+                delete response.dataValues.userId;
+                res.json(response);
+            }
         } catch (error) {
             next(error);
         }
@@ -40,9 +46,8 @@ router.post('/only',
 router.post('/pin-id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    // checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer'),
     async (req, res, next) => {
-        console.log(req.body, 'req in api-rest');
         const body = req.body;
         try {
             res.json(await service.findByPinId(body));
@@ -52,10 +57,21 @@ router.post('/pin-id',
     }
 );
 
+router.post('/pin-id-read',
+    checkApiKey,
+    async (req, res, next) => {
+        const body = req.body;
+        try {
+            res.json(await service.findByPinIdRead(body));
 
+        } catch (error) {
+            next(error);
+        }
+    }
+);
 
 router.get('/:id',
-    passport.authenticate('jwt', { session: false }), 
+    passport.authenticate('jwt', { session: false }),
     checkApiKey,
     checkRoles('admin', 'customer'),
     async (req, res, next) => {
@@ -63,6 +79,21 @@ router.get('/:id',
         try {
             const rta = await service.findOne(id);
             utils.userTokenValidate(rta.user.id, req.user.sub);
+            res.json(rta);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+router.get('/id-read/:id',
+    checkApiKey,
+    async (req, res, next) => {
+        const { id } = req.params;
+        try {
+            const rta = await service.findOne(id);
+            delete rta.dataValues.user;
+            delete rta.dataValues.userId;
             res.json(rta);
         } catch (error) {
             next(error);

@@ -27,7 +27,7 @@ class ArticleProfileService {
         let response;
         const newArticleProfile = await models.ArticleProfile.create(data);
         if (newArticleProfile) {
-            response = await this.findOne(newPersonalProfile.id);
+            response = await this.findOne(newArticleProfile.id);
         }
         return response;
     }

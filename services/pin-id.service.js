@@ -14,7 +14,6 @@ class PinIdService {
     }
 
     async generate(body) {
-        console.log(body, 'body in generate');
         const query = 'CALL sp_GeneratePinId (:country, :qtyRows, @res)';
         await models.query(query, {
             replacements: { country: body.country, qtyRows: body.qtyRows },
@@ -25,9 +24,9 @@ class PinIdService {
 
     }
 
-    async findByCountry(country, limit) {
+    async findAvailable(limit) {
         const response = await models.PinIdProfile.findAll({
-            where: { country }, limit: limit
+            limit: limit
         }, { order: [['id', 'DESC']] });
 
         if (!response) {

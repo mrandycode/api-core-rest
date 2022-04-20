@@ -21,10 +21,13 @@ class ProfileService {
         const profile = await models.Profile.findOne({
             where: {
                 [Op.and]: [
-                    { qrId: body.qrId }, { country: body.country }
+                    { qrId: body.qrId }, { pinId: body.pinId }
                 ]
             }
         });
+        if (!profile) {
+            throw boom.notFound('NOT_FOUND');
+        }
         return profile;
     }
 
@@ -65,10 +68,37 @@ class ProfileService {
         return profile;
     }
 
+    async findByPinIdRead(body) {
+        const profile = await models.Profile.findOne({
+            include: [
+                { association: 'personalProfile', include: constants.PERSONAL_PROFILE },
+                { association: 'petProfile', include: constants.PET_PROFILE },
+                { association: 'articleProfile', include: constants.ARTICLE_PROFILE }
+            ], where: {
+                [Op.and]: [
+                    { qrId: body.qrId }, { pinId: body.pinId }
+                ]
+            }
+        });
+        if (!profile) {
+            throw boom.notFound('Profile not found');
+        }
+
+        delete profile.dataValues.userId;
+
+        // if (profile.dataValues.personalProfile.length > 0){
+        //     console.log(profile.dataValues,'profile.dataValuessasdasd' )
+        //     delete profile.dataValues.personalProfile[0].personalProfile.profile;
+        // }
+
+        return profile;
+    }
+
     async create(data) {
 
         // const profile = await this.findOne(data.id);
         // if (!profile) {
+        data.qrId = data.qrId.toUpperCase();
         const newProfile = await models.Profile.create(data);
         return newProfile;
         // }

@@ -12,15 +12,15 @@ const passport = require('passport');
 const service = new PinIdService();
 const QRCode = require('qrcode');
 
-router.get('/:country/:limit',
+router.get('/:limit',
     // passport.authenticate('jwt', { session: false }),
     // checkApiKey,
     // checkRoles('admin'),
-    validationHandler(getPinIdSchemaByCountry),
+    // validationHandler(getPinIdSchemaByCountry),
     async (req, res, next) => {
-        const { country, limit } = req.params;
+        const { limit } = req.params;
         try {
-            res.json(await service.findByCountry(country, parseInt(limit, 10)));
+            res.json(await service.findAvailable(parseInt(limit, 10)));
         } catch (error) {
             next(error);
         }
