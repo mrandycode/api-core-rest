@@ -41,9 +41,9 @@ const AllergiesSchema = {
         references: {
             model: PERSONAL_PROFILE_TABLE,
             key: 'id'
-        }
-        // onUpdate: 'CASCADE',
-        // onDelete: 'SET NULL'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     },
     petProfileId: {
         field: 'pet_profile_id',
@@ -52,9 +52,9 @@ const AllergiesSchema = {
         references: {
             model: PET_PROFILE_TABLE,
             key: 'id'
-        }
-        // onUpdate: 'CASCADE',
-        // onDelete: 'SET NULL'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     }
 }
 

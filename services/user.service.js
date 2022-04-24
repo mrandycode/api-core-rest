@@ -19,6 +19,10 @@ class UserService {
 
             ]
         });
+        
+        if (!response) {
+            throw boom.notFound('User not found');
+        }
         return response;
     }
 

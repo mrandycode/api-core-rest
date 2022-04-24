@@ -89,9 +89,9 @@ const PersonalProfileSchema = {
         references: {
             model: PROFILE_TABLE,
             key: 'id'
-        }
-        // onUpdate: 'CASCADE',
-        // onDelete: 'SET NULL'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     }
 }
 

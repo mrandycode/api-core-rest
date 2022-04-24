@@ -1,5 +1,5 @@
 const constants = require('../shared/constants');
-
+const boom = require('@hapi/boom');
 
 // Para usar estos métodos es importante que se mapeen los
 // tags en los archivos translation.json

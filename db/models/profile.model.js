@@ -57,8 +57,6 @@ const ProfileSchema = {
             model: USER_TABLE,
             key: 'id'
         }
-        // onUpdate: 'CASCADE',
-        // onDelete: 'SET NULL'
     }
 }
 
@@ -68,7 +66,7 @@ class Profile extends Model {
         this.belongsTo(models.User, { as: 'user' });
         this.hasMany(models.PersonalProfile, {
             as: 'personalProfile',
-            foreignKey: 'profileId'
+            foreignKey: 'profileId',
         });
         this.hasMany(models.PetProfile, {
             as: 'petProfile',

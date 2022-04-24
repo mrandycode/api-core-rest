@@ -134,4 +134,22 @@ router.patch('/:id',
     }
 );
 
+router.delete('/:id',
+    passport.authenticate('jwt', { session: false }),
+    validationHandler(getProfileSchema, 'params'),
+    validationHandler(updateProfileSchema, 'body'),
+    checkApiKey,
+    checkRoles('admin', 'customer'),
+    async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const body = req.body;
+            // utils.userTokenValidate(body.userId, req.user.sub);
+            res.status(201).json(await service.delete(id));
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
 module.exports = router;

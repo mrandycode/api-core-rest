@@ -20,7 +20,7 @@ const PetProfileSchema = {
     image: {
         type: DataTypes.STRING
     },
-    license:{
+    license: {
         type: DataTypes.STRING
 
     },
@@ -73,15 +73,15 @@ const PetProfileSchema = {
         references: {
             model: PROFILE_TABLE,
             key: 'id'
-        }
-        // onUpdate: 'CASCADE',
-        // onDelete: 'SET NULL'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     }
 }
 
 class PetProfile extends Model {
     static associate(models) {
-        this.belongsTo(models.Profile, { as: 'profile' });
+        this.belongsTo(models.Profile, { as: 'profile', onDelete: 'cascade' });
         this.hasMany(models.EmergencyContact, {
             as: 'emergencyContacts',
             foreignKey: 'petProfileId'

@@ -11,7 +11,7 @@ const service = new UserService();
 router.get('/',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin'),
+    checkRoles('customer'),
     async (req, res, next) => {
         try {
             res.json(await service.find());

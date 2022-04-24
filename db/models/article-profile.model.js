@@ -69,9 +69,9 @@ const ArticleProfileSchema = {
         references: {
             model: PROFILE_TABLE,
             key: 'id'
-        }
-        // onUpdate: 'CASCADE',
-        // onDelete: 'SET NULL'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
     }
 }
 
@@ -82,7 +82,7 @@ class ArticleProfile extends Model {
             as: 'emergencyContacts',
             foreignKey: 'articleProfileId'
         });
-        
+
     }
 
     static config(sequelize) {
