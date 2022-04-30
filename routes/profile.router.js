@@ -44,13 +44,13 @@ router.post('/only',
 );
 
 router.post('/pin-id',
-    passport.authenticate('jwt', { session: false }),
+    // passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    // checkRoles('admin', 'customer'),
     async (req, res, next) => {
         const body = req.body;
         try {
-            res.json(await service.findByPinId(body));
+            res.json(await service.findByPinId(body, req));
         } catch (error) {
             next(error);
         }
@@ -62,7 +62,7 @@ router.post('/pin-id-read',
     async (req, res, next) => {
         const body = req.body;
         try {
-            res.json(await service.findByPinIdRead(body));
+            res.json(await service.findByPinIdRead(body, req));
 
         } catch (error) {
             next(error);
