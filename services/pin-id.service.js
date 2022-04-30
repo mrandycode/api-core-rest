@@ -36,12 +36,12 @@ class PinIdService {
         return response;
     }
 
-    async findByPinId(qrId, qrPin) {
+    async findByPinId(qrId, qrPin, req) {
         const response = await models.PinIdProfile.findOne({
             where: { pinProfile: qrPin, idProfile: qrId }
         });
         if (!response) {
-            throw boom.notFound('NOT_FOUND');
+            throw boom.notFound(req.t('PROFILE_NOT_FOUND'));
         }
 
         return response;
@@ -49,7 +49,6 @@ class PinIdService {
 
     async update(request) {
         // const pinId = await this.findOne(request['id']);
-        console.info(request, 'pinId, update');
         // if (pinId) {
             const response = await models.PinIdProfile.update(request,
                 { where: { id: request['id'] } });

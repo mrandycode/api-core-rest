@@ -48,7 +48,7 @@ class ProfileService {
         return profile;
     }
 
-    async findByPinId(body) {
+    async findByPinId(body, req) {
         const profile = await models.Profile.findOne({
             include: [
                 { association: 'user' },
@@ -57,18 +57,18 @@ class ProfileService {
                 { association: 'articleProfile', include: constants.ARTICLE_PROFILE }
             ], where: {
                 [Op.and]: [
-                    { qrId: body.qrId }, { country: body.country }
+                    { qrId: body.idProfile }, { pinId: body.pinProfile }
                 ]
             }
         });
         if (!profile) {
-            throw boom.notFound('Profile not found');
+            throw boom.notFound(req.t('PROFILE_NOT_FOUND'));
         }
         delete profile.dataValues.user.password;
         return profile;
     }
 
-    async findByPinIdRead(body) {
+    async findByPinIdRead(body, req) {
         const profile = await models.Profile.findOne({
             include: [
                 { association: 'personalProfile', include: constants.PERSONAL_PROFILE },
@@ -81,7 +81,7 @@ class ProfileService {
             }
         });
         if (!profile) {
-            throw boom.notFound('Profile not found');
+            throw boom.notFound(req.t('PROFILE_NOT_FOUND'));
         }
 
         delete profile.dataValues.userId;

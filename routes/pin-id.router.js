@@ -67,7 +67,7 @@ router.post('/',
         const id = body['idProfile'];
         const pin = body['pinProfile'];
         try {   
-            res.json(await service.findByPinId(id, pin));
+            res.json(await service.findByPinId(id, pin, req));
         } catch (error) {
             next(error);
         }
