@@ -1,7 +1,11 @@
 const express = require('express');
 const EmergencyContactService = require('../services/emergency-contact.service');
-const { getEmergencyContactSchemaById, createEmergencyContactSchema, updateEmergencyContactSchema } = require('../schemas/emergency-contact.schema');
+const { getEmergencyContactSchemaById,
+    createEmergencyContactSchema, 
+    updateEmergencyContactSchema, 
+    deleteEmergencyContactSchema } = require('../schemas/emergency-contact.schema');
 const validationHandler = require('../middlewares/validator.handler');
+const utils = require('../shared/utils');
 const router = express.Router();
 const { checkApiKey, checkRoles } = require('../middlewares/auth.handler');
 const passport = require('passport');
@@ -36,13 +40,14 @@ router.get('/:id',
 );
 
 router.post('/',
-    // passport.authenticate('jwt', { session: false }),
+    passport.authenticate('jwt', { session: false }),
     // validationHandler(createEmergencyContactSchema, 'body'),
-    // checkApiKey,
-    // checkRoles('admin', 'customer'),
+    checkApiKey,
+    checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
             const body = req.body;
+            res.statusMessage = req.t('CREATED');
             res.status(201).json(await service.create(body));
         } catch (error) {
             next(error);
@@ -51,14 +56,37 @@ router.post('/',
 );
 
 router.patch('/',
+    passport.authenticate('jwt', { session: false }),
     // validationHandler(getEmergencyContactSchemaById, 'params'),
     // validationHandler(updateEmergencyContactSchema, 'body'),
-    // checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
             const body = req.body;
             const id = body['id'];
+            res.statusMessage = req.t('UPDATED');
             res.status(201).json(await service.update(id, body));
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+router.delete('/',
+    passport.authenticate('jwt', { session: false }),
+    checkApiKey,
+    validationHandler(deleteEmergencyContactSchema, 'body'),
+    checkRoles('admin', 'customer'),
+    async (req, res, next) => {
+        try {
+            const body = req.body;
+            utils.userTokenValidate(body.userId, req.user.sub);
+
+            if (await service.delete(body.id)) {
+                res.statusMessage = req.t('DELETED');
+                res.status(201).json(true);
+            }
+
         } catch (error) {
             next(error);
         }

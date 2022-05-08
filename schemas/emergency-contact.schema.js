@@ -11,6 +11,7 @@ const email = Joi.string().optional().allow('').email().max(64);
 const personalProfileId = Joi.number().integer();
 const petProfileId = Joi.number().integer();
 const articleProfileId = Joi.number().integer();
+const userId = Joi.number().integer();
 
 const getEmergencyContactSchemaById = Joi.object({
     id: id.required()
@@ -38,9 +39,15 @@ const updateEmergencyContactSchema = Joi.object({
     email
 });
 
+const deleteEmergencyContactSchema = Joi.object({
+    id: id.required(),
+    userId: userId.required()
+});
+
 
 module.exports = {
     getEmergencyContactSchemaById,
     createEmergencyContactSchema,
-    updateEmergencyContactSchema
+    updateEmergencyContactSchema,
+    deleteEmergencyContactSchema
 }

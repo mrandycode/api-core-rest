@@ -42,7 +42,8 @@ class PreexistingDiseasesService {
     async delete(id) {
         const preexistingDisease = await this.findOne(id);
         await preexistingDisease.destroy();
-        return { response: true };
+        return true;
     }
+
 }
 module.exports = PreexistingDiseasesService;

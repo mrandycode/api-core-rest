@@ -46,7 +46,7 @@ class MedicationService {
     async delete(id) {
         const medication = await this.findOne(id);
         await medication.destroy();
-        return { response: true };
+        return true;
     }
 }
 module.exports = MedicationService;

@@ -7,6 +7,7 @@ const frecuency = Joi.string().max(200);
 const dose = Joi.string().max(50);
 const personalProfileId = Joi.number().integer();
 const petProfileId = Joi.number().integer();
+const userId = Joi.number().integer();
 
 const getMedicationSchemaById = Joi.object({
     id: id.required()
@@ -28,8 +29,15 @@ const updateMedicationSchema = Joi.object({
 
 });
 
+const deleteMedicationSchema = Joi.object({
+    id: id.required(),
+    userId: userId.required()
+});
+
+
 module.exports = {
     getMedicationSchemaById,
     createMedicationSchema,
-    updateMedicationSchema
+    updateMedicationSchema,
+    deleteMedicationSchema
 }

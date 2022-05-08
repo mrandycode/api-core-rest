@@ -6,7 +6,7 @@ const condition = Joi.string().max(200);
 const treatment = Joi.string().max(2000);
 const personalProfileId = Joi.number().integer();
 const petProfileId = Joi.number().integer();
-
+const userId = Joi.number().integer();
 
 const getPreexistingDiseaseSchemaById = Joi.object({
     id: id.required()
@@ -27,9 +27,16 @@ const updatePreexistingDiseaseSchema = Joi.object({
     petProfileId,
 });
 
+const deletePreexistingDiseaseSchema = Joi.object({
+    id: id.required(),
+    userId: userId.required()
+});
+
+
 
 module.exports = {
     getPreexistingDiseaseSchemaById,
     createPreexistingDiseaseSchema,
-    updatePreexistingDiseaseSchema
+    updatePreexistingDiseaseSchema,
+    deletePreexistingDiseaseSchema
 }

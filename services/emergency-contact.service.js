@@ -35,7 +35,7 @@ class EmergencyContactService {
         const emergencyContact = await this.findOne(id);
         if (emergencyContact) {
             const response = await emergencyContact.update(request,
-                { where: { id: request.id } }
+                { where: { id } }
             );
             return response;
         } else {
@@ -46,7 +46,7 @@ class EmergencyContactService {
     async delete(id) {
         const emergencyContact = await this.findOne(id);
         await emergencyContact.destroy();
-        return { response: true };
+        return true;
     }
 }
 module.exports = EmergencyContactService;

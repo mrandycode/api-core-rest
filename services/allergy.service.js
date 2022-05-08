@@ -45,7 +45,7 @@ class AllergyService {
     async delete(id) {
         const allergy = await this.findOne(id);
         await allergy.destroy();
-        return { response: true };
+        return true;
     }
 }
 module.exports = AllergyService;
