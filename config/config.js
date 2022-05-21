@@ -10,8 +10,13 @@ const config = {
     dbName: process.env.DB_NAME,
     dbHost: process.env.DB_HOST,
     jwtSecret: process.env.JWT_SECRET,
+    jwtGeoSecret: process.env.JWT_GEO_SECRET,
     apiKey: process.env.API_KEY,
     corsWhiteList: process.env.CORS_WHITE_LIST.split(' '),
+    hostEmail: process.env.HOST_EMAIL,
+    portEmail: process.env.PORT_EMAIL,
+    baseUrlWeb: process.env.BASE_URL_WEB,
+    geolocationExpire: process.env.GEOLOCATION_EXPIRE,
 };
 
 module.exports = { config };

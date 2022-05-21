@@ -1,3 +1,5 @@
+const { config } = require('../config/config');
+
 module.exports = Object.freeze({
     PERSONAL_PROFILE: [
         'emergencyContacts',
@@ -29,6 +31,20 @@ module.exports = Object.freeze({
             translateKey: 'EMAIL_UNIQUE'
         }
 
-    ]
+    ],
+    EMAIL_SCANME: {
+        host: config.hostEmail,
+        port: config.portEmail,
+        path: '/api-send-mail-rest/support',
+        method: 'POST',
+        headers: {
+            'api-key': config.apiKey,
+            'Content-Type': 'application/json'
+        }
+    },
+    EMAILS: {
+        RECOVERY: "recovery@salvameid.com",
+        SUPPORT: "support@salvameid.com"
+    }
 },
 );

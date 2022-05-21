@@ -10,6 +10,7 @@ const medicationRouter = require('./medication.router');
 const allergyRouter = require('./allergy.router');
 const userRouter = require('./user.router');
 const pinIdRouter = require('./pin-id.router');
+const scanmeRouter = require('./scanme.router');
 
 function routerApi(app) {
     const router = express.Router();
@@ -25,6 +26,7 @@ function routerApi(app) {
     router.use('/allergy', allergyRouter);
     router.use('/user', userRouter);
     router.use('/pin-id', pinIdRouter);
+    router.use('/scan-me', scanmeRouter);
 }
 
 module.exports = routerApi;
