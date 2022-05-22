@@ -22,11 +22,13 @@ router.post('/send',
             const scanme = req.body;
             const profile = await profileService.findOne(scanme.id);
             const nameProfile = await utils.getNameProfile(profile);
+          
             const user = profile.user;
+            user.emergencyContacts = await utils.getAllEmergencyEmails(profile);
             let token = '-1';
 
-            const ipClient = req.ip;
-            const hostname = req.hostname;
+            const ipClient = req.headers.ip
+            const hostname = req.headers.host;
 
             if (scanme.lng && scanme.lat) {
                 const payload = {
@@ -40,7 +42,7 @@ router.post('/send',
             scanme.dateTimeOn = dateTimeOn;
             scanme.nameProfile = nameProfile;
             scanme.hostname = hostname;
-  
+
             const bodyEmail = utils.getEmailScanMe(user, token, scanme, req);
             const options = constants.EMAIL_SCANME;
             var postReq = await http.request(options, function (response) {
@@ -69,7 +71,7 @@ router.get('/verify/geolocation/:token',
         try {
             const { token } = req.params;
             payload = jwt.verify(token, config.jwtGeoSecret);
-          
+
             if (payload) {
                 const geolocation = { lng: payload.lng, lat: payload.lat }
                 return res.status(200).json(geolocation);

@@ -27,6 +27,8 @@ function userTokenValidate(userId, idToken) {
 }
 
 function getEmailScanMe(user, token, scanme, req) {
+    const emails = user.emergencyContacts;
+    emails.push(user.email);
     const host = config.baseUrlWeb;
     let geolocation = '';
     let link = ''
@@ -39,10 +41,10 @@ function getEmailScanMe(user, token, scanme, req) {
 
     const body = {
         from: constants.EMAILS.SUPPORT,
-        to: user.email,
+        to: emails.toString(),
         subject: req.t('SCAN_ME'),
         text: 'Dar Click a el siguiente link para recuperar su contraseña ' + geolocation,
-        html: '<div style=\"display:flex; justify-content:center\"><img width=\"300px\" height=\"100px\" src=\"https://www.salvameid.com/assets/images/logo-banner.png\"></div><h1>Se ha escaneado uno de tus perfiles</h1> <p>Hola, ' + user.name + ', nuestro sistema ha detectado un escaneo de uno de tus perfiles.</p> <p>Nombre del perfil: ' + scanme.nameProfile + '<p> <p>Hora: ' + scanme.dateTimeOn + '</p> <p>Dispositivo identificado cómo: ' + scanme.hostname + '</p><p>Fue escaneado desde la IP: ' + scanme.ip + '</p> <p>Link para la ubicación: ' + geolocation + ' </p> <p>Muchas gracias por preferirnos!</p> </body> </html>'
+        html: '<div style=\"display:flex; justify-content:center\"><img width=\"300px\" height=\"100px\" src=\"https://www.salvameid.com/assets/images/logo-banner.png\"></div><h1>Se ha escaneado uno de tus perfiles</h1> <p>Hola, ' + user.name + ', nuestro sistema ha detectado un escaneo de uno de tus perfiles.</p> <p>Nombre del perfil: ' + scanme.nameProfile + '<p> <p>Hora: ' + scanme.dateTimeOn + '</p> <p>Dispositivo identificado cómo: ' + scanme.hostname + '</p><p>Fue escaneado desde la IP: ' + scanme.ip + '</p> <p>Link para la ubicación: ' + geolocation + ' </p> <p>Se envió este mensaje a tus contactos de emergencia con correo registrado.<p> <p>Muchas gracias por preferirnos!</p> </body> </html>'
     }
 
     return setBodyEmail(body);
@@ -85,11 +87,40 @@ async function getNameProfile(profile) {
     return nameProfile;
 }
 
+function getAllEmergencyEmails(profile) {
+    let emails = [];
+    if (profile.profileType === 1) {
+        const _profile = profile.personalProfile[0];
+        _profile.emergencyContacts.forEach(emergencyContact => {
+            if (emergencyContact.email) {
+                emails.push(emergencyContact.email);
+            }
+        });
+    } else if (profile.profileType === 2) {
+        const _profile = profile.petProfile[0];
+        _profile.emergencyContacts.forEach(emergencyContact => {
+            if (emergencyContact.email) {
+                emails.push(email);
+            }
+        });
+    } else {
+        const _profile = profile.articleProfile[0];
+        _profile.emergencyContacts.forEach(emergencyContact => {
+            if (emergencyContact.email) {
+                emails.push(email);
+            }
+        });
+    }
+
+    return emails;
+}
+
 module.exports = {
     getErrorByPathOrm,
     translateBoom,
     userTokenValidate,
     getEmailScanMe,
     getDateTime,
-    getNameProfile
+    getNameProfile,
+    getAllEmergencyEmails
 }
