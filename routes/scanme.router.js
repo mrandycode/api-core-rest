@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const http = require('http');
+const http = require('https');
 const constants = require('../shared/constants');
 const validatorHandler = require('../middlewares/validator.handler');
 const ProfileService = require('../services/profile.service');
