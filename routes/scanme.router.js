@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const http = require('https');
+const http = require('http');
 const constants = require('../shared/constants');
 const validatorHandler = require('../middlewares/validator.handler');
 const ProfileService = require('../services/profile.service');
@@ -25,7 +25,8 @@ router.post('/send',
             const user = profile.user;
             let token = '-1';
 
-            const ipClient = req.socket.localAddress;
+            const ipClient = req.ip;
+            const hostname = req.hostname;
 
             if (scanme.lng && scanme.lat) {
                 const payload = {
@@ -38,7 +39,8 @@ router.post('/send',
             scanme.ip = ipClient;
             scanme.dateTimeOn = dateTimeOn;
             scanme.nameProfile = nameProfile;
-
+            scanme.hostname = hostname;
+  
             const bodyEmail = utils.getEmailScanMe(user, token, scanme, req);
             const options = constants.EMAIL_SCANME;
             var postReq = await http.request(options, function (response) {
