@@ -100,18 +100,17 @@ function getAllEmergencyEmails(profile) {
         const _profile = profile.petProfile[0];
         _profile.emergencyContacts.forEach(emergencyContact => {
             if (emergencyContact.email) {
-                emails.push(email);
+                emails.push(emergencyContact.email);
             }
         });
     } else {
         const _profile = profile.articleProfile[0];
         _profile.emergencyContacts.forEach(emergencyContact => {
             if (emergencyContact.email) {
-                emails.push(email);
+                emails.push(emergencyContact.email);
             }
         });
     }
-
     return emails;
 }
 
