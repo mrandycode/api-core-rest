@@ -27,8 +27,8 @@ router.post('/send',
             user.emergencyContacts = await utils.getAllEmergencyEmails(profile);
             let token = '-1';
 
-            const ipClient = req.headers.ip
-            const hostname = req.headers.host;
+            const ipClient = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
+            const hostname = req.headers.host;            
 
             if (scanme.lng && scanme.lat) {
                 const payload = {
