@@ -11,6 +11,8 @@ const utils = require('../shared/utils');
 const jwt = require('jsonwebtoken');
 const { config } = require('../config/config');
 
+const os = require("os");
+
 router.post('/send',
     validatorHandler(getScanMeSchema, 'body'),
     checkApiKey,
@@ -39,9 +41,11 @@ router.post('/send',
             }
 
             scanme.ip = ipClient;
+
             scanme.dateTimeOn = dateTimeOn;
             scanme.nameProfile = nameProfile;
             scanme.hostname = hostname;
+            console.log(os.hostname(), 'hostname')
 
             const bodyEmail = utils.getEmailScanMe(user, token, scanme, req);
             const options = constants.EMAIL_SCANME;

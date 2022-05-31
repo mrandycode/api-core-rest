@@ -6,11 +6,12 @@ const { config } = require('../config/config');
 // tags en los archivos translation.json
 
 function getErrorByPathOrm(errors, req) {
+
     errors.map(error => {
         const message = constants.ORM_VALIDATION.find((res) =>
             res.path === error.path
             && res.validatorKey === error.validatorKey);
-        return error.message = req.t(message.translateKe);
+        return error.message = req.t(message.translateKey);
     });
     return errors;
 }
@@ -63,13 +64,13 @@ function setBodyEmail(body) {
 
 function getDateTime() {
     const date = new Date();
-    const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
+    const [day, month, year] = [date.getDate(), date.getMonth(), date.getFullYear()];
     let [hour, minutes] = [date.getHours(), date.getMinutes()];
 
     hour = hour < 10 ? '0' + hour.toString() : hour;
     minutes = minutes < 10 ? '0' + minutes.toString() : minutes;
-
-    const dateTimeOn = day + '/' + month + '/' + year + ' ' + hour + ':' + minutes
+    
+    const dateTimeOn = day + '/' + (month + 1) + '/' + year + ' ' + hour + ':' + minutes;
     return dateTimeOn;
 }
 
