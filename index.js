@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes');
 const passport = require('passport');
+const boom = require('@hapi/boom');
 const { config } = require('./config/config');
 const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler');
 const port = config.port || 3000;
@@ -27,7 +28,7 @@ const options = {
         if (whitelist.includes(origin) || !origin) {
             callback(null, true);
         } else {
-            callback(new Error('Host no permitido'));
+            callback(null, boom.unauthorized('HOST_UNAUTHORIZED'));
         }
     }
 }

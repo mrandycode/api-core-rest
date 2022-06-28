@@ -3,12 +3,11 @@ const PinIdService = require('../services/pin-id.service');
 const {
     getPinIdSchemaByCountry,
     generatePinIdSchema,
-    getPinIdSchema, 
-    updatePinIdSchema} = require('../schemas/pin-id.schema');
+    getPinIdSchema,
+    updatePinIdSchema } = require('../schemas/pin-id.schema');
 const validationHandler = require('../middlewares/validator.handler');
 const router = express.Router();
-const { checkApiKey, checkRoles } = require('../middlewares/auth.handler');
-const passport = require('passport');
+const { checkApiKey } = require('../middlewares/auth.handler');
 const service = new PinIdService();
 const QRCode = require('qrcode');
 
@@ -21,6 +20,22 @@ router.get('/:limit',
         const { limit } = req.params;
         try {
             res.json(await service.findAvailable(parseInt(limit, 10)));
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+
+router.get('/:limit/:date',
+    // passport.authenticate('jwt', { session: false }),
+    // checkApiKey,
+    // checkRoles('admin'),
+    // validationHandler(getPinIdSchemaByCountry),
+    async (req, res, next) => {
+        const { limit, date } = req.params;
+        try {
+            res.json(await service.findAvailableByDate(parseInt(limit, 10), date));
         } catch (error) {
             next(error);
         }
@@ -47,7 +62,6 @@ router.get('/generate-qr/:country/:limit',
     async (req, res, next) => {
         const { country, limit } = req.params;
         try {
-            const response = await service.findByCountry(country, parseInt(limit, 10));
 
             QRCode.toString('I am a pony!', { type: 'terminal' }, function (err, url) {
                 console.log(url)
@@ -66,8 +80,8 @@ router.post('/',
         const body = req.body;
         const id = body['idProfile'];
         const pin = body['pinProfile'];
-        try {   
-            res.json(await service.findByPinId(id, pin, req));
+        try {
+            res.status(200).json(await service.findByPinId(id, pin, req));
         } catch (error) {
             next(error);
         }

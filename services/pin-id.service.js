@@ -1,5 +1,7 @@
 const boom = require('@hapi/boom');
-const { models } = require('../libs/sequelize');
+const { models, Op } = require('../libs/sequelize');
+const { QueryTypes } = require('sequelize');
+const sequelize = require('../libs/sequelize');
 
 class PinIdService {
 
@@ -14,19 +16,42 @@ class PinIdService {
     }
 
     async generate(body) {
+        let rta = {};
         const query = 'CALL sp_GeneratePinId (:country, :qtyRows, @res)';
-        await models.query(query, {
+        await sequelize.query(query, {
             replacements: { country: body.country, qtyRows: body.qtyRows },
-            type: models.QueryTypes.INSERT
+            type: QueryTypes.INSERT,
+            raw: true
         }).then((response) => {
-            console.log(response, 'response---sp_GeneratePinId')
-        })
+            console.log(response);
+            rta.message = response;
+            return rta;
+
+        });
 
     }
 
     async findAvailable(limit) {
         const response = await models.PinIdProfile.findAll({
+            where: {
+                status: 2
+            },
             limit: limit
+        }, { order: [['id', 'DESC']] });
+
+        if (!response) {
+            throw boom.notFound('NOT_FOUND');
+        }
+
+        return response;
+    }
+
+    async findAvailableByDate(limit, date) {
+        const response = await models.PinIdProfile.findAll({
+            where: {
+                createdAt: { [Op.gte]: date },
+                status: 2
+            }, limit,
         }, { order: [['id', 'DESC']] });
 
         if (!response) {
@@ -50,9 +75,9 @@ class PinIdService {
     async update(request) {
         // const pinId = await this.findOne(request['id']);
         // if (pinId) {
-            const response = await models.PinIdProfile.update(request,
-                { where: { id: request['id'] } });
-            return response;
+        const response = await models.PinIdProfile.update(request,
+            { where: { id: request['id'] } });
+        return response;
         // } else {
         //     return [0]
         // }

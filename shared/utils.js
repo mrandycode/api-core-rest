@@ -69,7 +69,7 @@ function getDateTime() {
 
     hour = hour < 10 ? '0' + hour.toString() : hour;
     minutes = minutes < 10 ? '0' + minutes.toString() : minutes;
-    
+
     const dateTimeOn = day + '/' + (month + 1) + '/' + year + ' ' + hour + ':' + minutes;
     return dateTimeOn;
 }

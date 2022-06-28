@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const http = require('https');
+const http = require('http');
 const constants = require('../shared/constants');
 const validatorHandler = require('../middlewares/validator.handler');
 const ProfileService = require('../services/profile.service');
@@ -11,7 +11,7 @@ const utils = require('../shared/utils');
 const jwt = require('jsonwebtoken');
 const { config } = require('../config/config');
 
-const os = require("os");
+// const os = require("os");
 
 router.post('/send',
     validatorHandler(getScanMeSchema, 'body'),
@@ -22,6 +22,7 @@ router.post('/send',
             const geolocationExpire = config.geolocationExpire;
             const dateTimeOn = utils.getDateTime();
             const scanme = req.body;
+            
             const profile = await profileService.findOne(scanme.id);
             const nameProfile = await utils.getNameProfile(profile);
           
@@ -30,7 +31,7 @@ router.post('/send',
             let token = '-1';
 
             const ipClient = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
-            const hostname = req.headers.host;            
+            // const hostname = req.headers.host;          
 
             if (scanme.lng && scanme.lat) {
                 const payload = {
@@ -44,8 +45,9 @@ router.post('/send',
 
             scanme.dateTimeOn = dateTimeOn;
             scanme.nameProfile = nameProfile;
-            scanme.hostname = hostname;
-            console.log(os.hostname(), 'hostname')
+            // scanme.hostname = hostname;
+            
+            // console.log(os.hostname(), 'hostname')
 
             const bodyEmail = utils.getEmailScanMe(user, token, scanme, req);
             const options = constants.EMAIL_SCANME;
@@ -74,7 +76,7 @@ router.get('/verify/geolocation/:token',
     async (req, res) => {
         try {
             const { token } = req.params;
-            payload = jwt.verify(token, config.jwtGeoSecret);
+            const payload = jwt.verify(token, config.jwtGeoSecret);
 
             if (payload) {
                 const geolocation = { lng: payload.lng, lat: payload.lat }
