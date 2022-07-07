@@ -2,6 +2,7 @@ const express = require('express');
 const profileRouter = require('./profile.router');
 const profileTypeRouter = require('./profile-type.router');
 const personalProfileRouter = require('./personal-profile.router');
+const doctorProfileRouter = require('./doctor-profile.router');
 const petProfileRouter = require('./pet-profile.router');
 const articleProfileRouter = require('./article-profile.router');
 const emergencyContactRouter = require('./emergency-contact.router');
@@ -18,6 +19,7 @@ function routerApi(app) {
     router.use('/profile', profileRouter);
     router.use('/profile-type', profileTypeRouter);
     router.use('/personal-profile', personalProfileRouter);
+    router.use('/doctor-profile', doctorProfileRouter);
     router.use('/pet-profile', petProfileRouter);
     router.use('/article-profile', articleProfileRouter);
     router.use('/emergency-contact', emergencyContactRouter);

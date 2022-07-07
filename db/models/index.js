@@ -2,13 +2,14 @@ const { User, UserSchema } = require('./user.model');
 const { Profile, ProfileSchema } = require('./profile.model');
 const { PersonalProfile, PersonalProfileSchema } = require('./personal-profile.model');
 const { PetProfile, PetProfileSchema } = require('./pet-profile.model');
-const { ArticleProfile, ArticleProfileSchema} = require('./article-profile.model');
+const { ArticleProfile, ArticleProfileSchema } = require('./article-profile.model');
 const { EmergencyContact, EmergencyContactSchema } = require('./emergency-contact.model');
 const { Allergy, AllergiesSchema } = require('./allergy.model');
 const { Medication, MedicationSchema } = require('./medication.model');
 const { PreexistingDisease, PreexistingDiseasesSchema } = require('./preexisting-disease.model');
 const { ProfileType, ProfileTypeSchema } = require('./profile-type.model');
 const { PinIdProfile, PinIdProfileSchema } = require('./pin-id.model');
+const { DoctorProfile, DoctorProfileSchema } = require('./doctor-profile.model');
 
 function setupModels(sequelize) {
     User.init(UserSchema, User.config(sequelize));
@@ -22,6 +23,7 @@ function setupModels(sequelize) {
     PreexistingDisease.init(PreexistingDiseasesSchema, PreexistingDisease.config(sequelize));
     ProfileType.init(ProfileTypeSchema, ProfileType.config(sequelize));
     PinIdProfile.init(PinIdProfileSchema, PinIdProfile.config(sequelize));
+    DoctorProfile.init(DoctorProfileSchema, DoctorProfile.config(sequelize));
 
     User.associate(sequelize.models);
     Profile.associate(sequelize.models);
@@ -34,6 +36,7 @@ function setupModels(sequelize) {
     PreexistingDisease.associate(sequelize.models);
     ProfileType.associate(sequelize.models);
     PinIdProfile.associate(sequelize.models);
+    DoctorProfile.associate(sequelize.models);
 }
 
 module.exports = setupModels;

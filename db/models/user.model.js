@@ -55,6 +55,10 @@ class User extends Model {
             as: 'profile',
             foreignKey: 'userId'
         });
+        this.hasMany(models.DoctorProfile, {
+            as: 'doctorProfile',
+            foreignKey: 'userId'
+        });
     
     }
 
