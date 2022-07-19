@@ -1,6 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const { PERSONAL_PROFILE_TABLE } = require('./personal-profile.model');
 const { PET_PROFILE_TABLE } = require('./pet-profile.model');
+const PERSONAL_PATIENT_TABLE = require('./health/personal-patient-profile.model');
 const PREEXISTING_DISEASES_TABLE = 'preexisting_diseases';
 
 const PreexistingDiseasesSchema = {
@@ -55,6 +56,17 @@ const PreexistingDiseasesSchema = {
         }
         // onUpdate: 'CASCADE',
         // onDelete: 'SET NULL'
+    },
+    personalPatientProfileId: {
+        field: 'personal_patient_profile_id',
+        type: DataTypes.INTEGER,
+        unique: false,
+        references: {
+            model: PERSONAL_PATIENT_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
     }
 }
 
@@ -62,6 +74,7 @@ class PreexistingDisease extends Model {
     static associate(models) {
         this.belongsTo(models.PersonalProfile, { as: 'personalProfile' });
         this.belongsTo(models.PetProfile, { as: 'petProfile' });
+        this.belongsTo(models.PersonalPatientProfile, { as: 'personalPatientProfile' });
     }
 
     static config(sequelize) {

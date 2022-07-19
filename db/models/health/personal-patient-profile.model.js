@@ -1,8 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { USER_TABLE } = require('../models/user.model');
-const DOCTOR_PROFILE_TABLE = 'doctor_profiles';
+const PERSONAL_PATIENT_PROFILE_TABLE = 'personal_patient_profiles';
 
-const DoctorProfileSchema = {
+const PersonalPatientProfileSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,9 +12,14 @@ const DoctorProfileSchema = {
         allowNull: false,
         type: DataTypes.STRING(4),
     },
-    dni: {
+    name: {
         allowNull: false,
-        type: DataTypes.STRING(20)
+        type: DataTypes.STRING(100),
+    },
+    lastName: {
+        allowNull: false,
+        type: DataTypes.STRING(100),
+        field: 'last_name',
     },
     image: {
         type: DataTypes.STRING
@@ -27,11 +31,23 @@ const DoctorProfileSchema = {
     genre: {
         type: DataTypes.STRING(1),
     },
+    bloodType: {
+        type: DataTypes.STRING(20),
+        field: 'blood_type',
+    },
+    eyeColor: {
+        type: DataTypes.STRING(20),
+        field: 'eye_color',
+    },
     mobile: {
         type: DataTypes.STRING(50),
     },
     phone: {
         type: DataTypes.STRING(50),
+    },
+    email: {
+        type: DataTypes.STRING(64),
+        isEmail: true,
     },
     city: {
         type: DataTypes.STRING(100),
@@ -45,14 +61,6 @@ const DoctorProfileSchema = {
     address: {
         type: DataTypes.STRING(1000),
     },
-    qtyQrGiven: {
-        field: 'qty_qr_given',
-        type: DataTypes.INTEGER(10),
-    },
-    specialty: {
-        field: 'specialty',
-        type: DataTypes.STRING(1000),
-    },
     createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
@@ -64,53 +72,52 @@ const DoctorProfileSchema = {
         type: DataTypes.DATE,
         field: 'updated_at',
         defaultValue: Sequelize.NOW
-    },
-    userId: {
-        field: 'user_id',
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        unique: true,
-        references: {
-            model: USER_TABLE,
-            key: 'id'
-        }
     }
 }
 
-class DoctorProfile extends Model {
+class PersonalPatientProfile extends Model {
     static associate(models) {
-        // this.belongsTo(models.Profile, { as: 'profile' });
-        this.hasMany(models.EmergencyContact, {
-            as: 'emergencyContacts',
-            foreignKey: 'personalProfileId'
+
+        this.hasMany(models.PersonalMedicalHistory, {
+            as: 'personalMedicalHistory',
+            foreignKey: 'personalPatientProfileId'
         });
+        
         this.hasMany(models.PreexistingDisease, {
             as: 'preexistingDiseases',
-            foreignKey: 'personalProfileId'
+            foreignKey: 'personalPatientProfileId'
         });
+
         this.hasMany(models.Allergy, {
             as: 'allergies',
-            foreignKey: 'personalProfileId'
+            foreignKey: 'personalPatientProfileId'
         });
+
         this.hasMany(models.Medication, {
             as: 'medications',
-            foreignKey: 'personalProfileId'
+            foreignKey: 'personalPatientProfileId'
         });
+
+        this.hasMany(models.Surgery, {
+            as: 'surgeries',
+            foreignKey: 'personalPatientProfileId'
+        });
+
 
     }
 
     static config(sequelize) {
         return {
             sequelize,
-            tableName: DOCTOR_PROFILE_TABLE,
-            modelName: 'DoctorProfile',
+            tableName: PERSONAL_PATIENT_PROFILE_TABLE,
+            modelName: 'PersonalPatientProfile',
             timestamps: true
         }
     }
 }
 
 module.exports = {
-    DOCTOR_PROFILE_TABLE,
-    DoctorProfileSchema,
-    DoctorProfile
+    PERSONAL_PATIENT_PROFILE_TABLE,
+    PersonalPatientProfileSchema,
+    PersonalPatientProfile
 }

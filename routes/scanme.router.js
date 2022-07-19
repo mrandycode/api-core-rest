@@ -31,7 +31,7 @@ router.post('/send',
             let token = '-1';
 
             const ipClient = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
-            // const hostname = req.headers.host;          
+            const hostname = req.headers.host;    
 
             if (scanme.lng && scanme.lat) {
                 const payload = {
@@ -45,7 +45,7 @@ router.post('/send',
 
             scanme.dateTimeOn = dateTimeOn;
             scanme.nameProfile = nameProfile;
-            // scanme.hostname = hostname;
+            scanme.hostname = hostname;
             
             // console.log(os.hostname(), 'hostname')
 

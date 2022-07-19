@@ -1,6 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const { PERSONAL_PROFILE_TABLE } = require('../models/personal-profile.model');
 const { PET_PROFILE_TABLE } = require('../models/pet-profile.model');
+const PERSONAL_PATIENT_TABLE = require('./health/personal-patient-profile.model');
 const ALLERGIES_TABLE = 'allergies';
 
 const AllergiesSchema = {
@@ -55,6 +56,17 @@ const AllergiesSchema = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
+    },
+    personalPatientProfileId: {
+        field: 'personal_patient_profile_id',
+        type: DataTypes.INTEGER,
+        unique: false,
+        references: {
+            model: PERSONAL_PATIENT_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
     }
 }
 
@@ -62,6 +74,7 @@ class Allergy extends Model {
     static associate(models) {
         this.belongsTo(models.PersonalProfile, { as: 'personalProfile' });
         this.belongsTo(models.PetProfile, { as: 'petProfile' });
+        this.belongsTo(models.PersonalPatientProfile, { as: 'PersonalPatientProfile' });
     }
 
     static config(sequelize) {
