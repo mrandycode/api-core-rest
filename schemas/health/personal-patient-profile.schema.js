@@ -4,6 +4,7 @@ const id = Joi.number().integer();
 const country = Joi.string().max(4);
 const name = Joi.string().max(100);
 const lastName = Joi.string().max(100);
+const dni = Joi.string().max(20);
 const image = Joi.string().optional().allow('');
 const birthday = Joi.string().optional().allow('');
 const genre = Joi.string().optional().allow('');
@@ -16,19 +17,17 @@ const city = Joi.string().optional().allow('').max(100);
 const state = Joi.string().optional().allow('').max(100);
 const zip = Joi.string().optional().allow('').max(20);
 const address = Joi.string().optional().allow('').max(1000);
-const vaccineCovid = Joi.string().optional().allow('').max(20);
-const doseQtyCovid = Joi.number().integer().optional().allow('').max(20);
-const profileId = Joi.number().integer();
 
-const getPersonalProfileSchemaById = Joi.object({
+const getPersonalPatientProfileSchemaById = Joi.object({
     id: id.required()
 });
 
-const createPersonalProfileSchema = Joi.object({
+const createPersonalPatientProfileSchema = Joi.object({
     id: id.required(),
     country: country.required(),
     name: name.required(),
     lastName: lastName.required(),
+    dni: dni.required(),
     image,
     birthday: birthday.required(),
     genre,
@@ -37,16 +36,13 @@ const createPersonalProfileSchema = Joi.object({
     mobile,
     phone,
     email,
-    city,
+    city, 
     state,
     zip,
-    address,
-    vaccineCovid,
-    doseQtyCovid,
-    profileId: profileId.required()
+    address
 });
 
-const updatePersonalProfileSchema = Joi.object({
+const updatePersonalPatientProfileSchema = Joi.object({
     id,
     name,
     lastName,
@@ -61,15 +57,11 @@ const updatePersonalProfileSchema = Joi.object({
     city,
     state,
     zip,
-    address,
-    vaccineCovid,
-    doseQtyCovid,
-    profileId
+    address
 });
 
-
-module.exports = { 
-    getPersonalProfileSchemaById, 
-    createPersonalProfileSchema, 
-    updatePersonalProfileSchema 
-};
+module.exports = {
+    getPersonalPatientProfileSchemaById,
+    createPersonalPatientProfileSchema,
+    updatePersonalPatientProfileSchema
+}

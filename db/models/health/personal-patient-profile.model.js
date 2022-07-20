@@ -21,6 +21,11 @@ const PersonalPatientProfileSchema = {
         type: DataTypes.STRING(100),
         field: 'last_name',
     },
+    dni: {
+        allowNull: false,
+        type: DataTypes.STRING(20),
+        unique: true
+    },
     image: {
         type: DataTypes.STRING
     },
@@ -79,7 +84,7 @@ class PersonalPatientProfile extends Model {
     static associate(models) {
 
         this.hasMany(models.PersonalMedicalHistory, {
-            as: 'personalMedicalHistory',
+            as: 'personalMedicalStories',
             foreignKey: 'personalPatientProfileId'
         });
         

@@ -15,7 +15,8 @@ const DoctorProfileSchema = {
     },
     dni: {
         allowNull: false,
-        type: DataTypes.STRING(20)
+        type: DataTypes.STRING(20),
+        unique: true
     },
     image: {
         type: DataTypes.STRING

@@ -1,15 +1,15 @@
 const express = require('express');
-const DoctorProfileService = require('../services/doctor-profile.service');
+const DoctorProfileService = require('../../services/health/doctor-profile.service');
 // const ProfileService = require('../services/profile.service');
 const {
     getDoctorProfileSchemaById,
     createDoctorProfileSchema,
     updateDoctorProfileSchema
-} = require('../schemas/doctor-profile.schema');
-const validationHandler = require('../middlewares/validator.handler');
-const utils = require('../shared/utils');
+} = require('../../schemas/health/doctor-profile.schema');
+const validationHandler = require('../../middlewares/validator.handler');
+const utils = require('../../shared/utils');
 const router = express.Router();
-const { checkApiKey, checkRoles } = require('../middlewares/auth.handler');
+const { checkApiKey, checkRoles } = require('../../middlewares/auth.handler');
 const passport = require('passport');
 const service = new DoctorProfileService();
 // const profileService = new ProfileService();

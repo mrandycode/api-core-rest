@@ -19,6 +19,14 @@ module.exports = Object.freeze({
         'personalProfile',
         'petProfile',
         'articleProfile'],
+    PERSONAL_PATIENT_PROFILE: [
+        'personalMedicalStories',
+        'preexistingDiseases',
+        'allergies',
+        'medications',
+        'surgeries'],
+    SURGERY_HEAD: [
+        'surgeryDetail'],
     ORM_VALIDATION: [
         {
             path: 'profile_idx_02',
@@ -29,6 +37,11 @@ module.exports = Object.freeze({
             path: 'email',
             validatorKey: 'not_unique',
             translateKey: 'EMAIL_UNIQUE'
+        },
+        {
+            path: 'dni',
+            validatorKey: 'not_unique',
+            translateKey: 'DNI_UNIQUE'
         }
 
     ],

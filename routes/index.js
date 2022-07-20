@@ -2,8 +2,9 @@ const express = require('express');
 const profileRouter = require('./profile.router');
 const profileTypeRouter = require('./profile-type.router');
 const personalProfileRouter = require('./personal-profile.router');
-const doctorProfileRouter = require('./doctor-profile.router');
+const doctorProfileRouter = require('./health/doctor-profile.router');
 const petProfileRouter = require('./pet-profile.router');
+const personalPatientProfileRouter = require('./health/personal-patient-profile.router');
 const articleProfileRouter = require('./article-profile.router');
 const emergencyContactRouter = require('./emergency-contact.router');
 const preexistingDiseaseRouter = require('./preexisting-diseases.router');
@@ -21,6 +22,7 @@ function routerApi(app) {
     router.use('/personal-profile', personalProfileRouter);
     router.use('/doctor-profile', doctorProfileRouter);
     router.use('/pet-profile', petProfileRouter);
+    router.use('/personal-patient-profile', personalPatientProfileRouter);
     router.use('/article-profile', articleProfileRouter);
     router.use('/emergency-contact', emergencyContactRouter);
     router.use('/preexisting-disease', preexistingDiseaseRouter);

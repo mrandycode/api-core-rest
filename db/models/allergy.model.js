@@ -74,7 +74,7 @@ class Allergy extends Model {
     static associate(models) {
         this.belongsTo(models.PersonalProfile, { as: 'personalProfile' });
         this.belongsTo(models.PetProfile, { as: 'petProfile' });
-        this.belongsTo(models.PersonalPatientProfile, { as: 'PersonalPatientProfile' });
+        this.belongsTo(models.PersonalPatientProfile, { as: 'personalPatientProfile' });
     }
 
     static config(sequelize) {
