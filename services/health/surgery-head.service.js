@@ -1,6 +1,6 @@
 const boom = require('@hapi/boom');
 const { models } = require('../../libs/sequelize');
-const constants = require('../shared/constants');
+const constants = require('../../shared/constants');
 
 class SurgeryHeadService {
     constructor() { }
@@ -14,7 +14,7 @@ class SurgeryHeadService {
     async findOne(id) {
         const surgeryHead =
             await models.SurgeryHead.findByPk(id, {
-                include: [constants.SURGERY_HEAD]
+                // include: [constants.SURGERY_HEAD]
             });
         if (!surgeryHead) {
             throw boom.notFound('Profile not found');

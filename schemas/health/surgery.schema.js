@@ -4,7 +4,7 @@ const Joi = require('joi');
 const id = Joi.number().integer();
 const country = Joi.string().max(4);
 const name = Joi.string().optional().allow('').max(2000);
-const personalPatientProfileId = Joi.integer();
+const personalPatientProfileId = Joi.number().integer();
 
 const getSurgerySchema = Joi.object({
     id: id.required()

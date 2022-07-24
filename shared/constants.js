@@ -25,8 +25,10 @@ module.exports = Object.freeze({
         'allergies',
         'medications',
         'surgeries'],
-    SURGERY_HEAD: [
-        'surgeryDetail'],
+    SURGERY_DETAIL: [
+        'surgeryHead'],
+    SURGERY: [
+        'personalPatientProfiles'],
     ORM_VALIDATION: [
         {
             path: 'profile_idx_02',
