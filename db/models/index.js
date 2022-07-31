@@ -10,6 +10,7 @@ const { PreexistingDisease, PreexistingDiseasesSchema } = require('./preexisting
 const { ProfileType, ProfileTypeSchema } = require('./profile-type.model');
 const { PinIdProfile, PinIdProfileSchema } = require('./pin-id.model');
 const { DoctorProfile, DoctorProfileSchema } = require('./health/doctor-profile.model');
+const { HealthProfile, HealthProfileSchema } = require('./health/health-profile.model');
 const { PersonalMedicalHistory, PersonalMedicalHistorySchema } = require('./health/personal-medical-history.model');
 const { PersonalPatientProfile, PersonalPatientProfileSchema } = require('./health/personal-patient-profile.model');
 const { SurgeryHead, SurgeryHeadSchema } = require('./health/surgery-head.model');
@@ -29,6 +30,7 @@ function setupModels(sequelize) {
     ProfileType.init(ProfileTypeSchema, ProfileType.config(sequelize));
     PinIdProfile.init(PinIdProfileSchema, PinIdProfile.config(sequelize));
     DoctorProfile.init(DoctorProfileSchema, DoctorProfile.config(sequelize));
+    HealthProfile.init(HealthProfileSchema, HealthProfile.config(sequelize));
     PersonalMedicalHistory.init(PersonalMedicalHistorySchema, PersonalMedicalHistory.config(sequelize));
     PersonalPatientProfile.init(PersonalPatientProfileSchema, PersonalPatientProfile.config(sequelize));
     SurgeryHead.init(SurgeryHeadSchema, SurgeryHead.config(sequelize));
@@ -47,6 +49,7 @@ function setupModels(sequelize) {
     ProfileType.associate(sequelize.models);
     PinIdProfile.associate(sequelize.models);
     DoctorProfile.associate(sequelize.models);
+    HealthProfile.associate(sequelize.models);
     PersonalMedicalHistory.associate(sequelize.models);
     PersonalPatientProfile.associate(sequelize.models);
     SurgeryHead.associate(sequelize.models);

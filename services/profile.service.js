@@ -11,7 +11,8 @@ class ProfileService {
                 { association: 'user' },
                 { association: 'personalProfile', include: constants.PERSONAL_PROFILE },
                 { association: 'petProfile', include: constants.PET_PROFILE },
-                { association: 'articleProfile', include: constants.ARTICLE_PROFILE }
+                { association: 'articleProfile', include: constants.ARTICLE_PROFILE },
+                { association: 'healthProfile', include: constants.HEALTH_PROFILE },
             ]
         });
         return response;
@@ -37,7 +38,8 @@ class ProfileService {
                 { association: 'user' },
                 { association: 'personalProfile', include: constants.PERSONAL_PROFILE },
                 { association: 'petProfile', include: constants.PET_PROFILE },
-                { association: 'articleProfile', include: constants.ARTICLE_PROFILE }
+                { association: 'articleProfile', include: constants.ARTICLE_PROFILE },
+                { association: 'healthProfile', include: constants.HEALTH_PROFILE },
             ]
         });
 
@@ -54,7 +56,8 @@ class ProfileService {
                 { association: 'user' },
                 { association: 'personalProfile', include: constants.PERSONAL_PROFILE },
                 { association: 'petProfile', include: constants.PET_PROFILE },
-                { association: 'articleProfile', include: constants.ARTICLE_PROFILE }
+                { association: 'articleProfile', include: constants.ARTICLE_PROFILE },
+                { association: 'healthProfile', include: constants.HEALTH_PROFILE },
             ], where: {
                 [Op.and]: [
                     { qrId: body.idProfile }, { pinId: body.pinProfile }
@@ -73,7 +76,8 @@ class ProfileService {
             include: [
                 { association: 'personalProfile', include: constants.PERSONAL_PROFILE },
                 { association: 'petProfile', include: constants.PET_PROFILE },
-                { association: 'articleProfile', include: constants.ARTICLE_PROFILE }
+                { association: 'articleProfile', include: constants.ARTICLE_PROFILE },
+                { association: 'healthProfile', include: constants.HEALTH_PROFILE },
             ], where: {
                 [Op.and]: [
                     { qrId: body.qrId }, { pinId: body.pinId }

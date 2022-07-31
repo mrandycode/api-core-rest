@@ -76,10 +76,15 @@ class Profile extends Model {
             as: 'articleProfile',
             foreignKey: 'profileId'
         });
+        this.hasMany(models.HealthProfile, {
+            as: 'healthProfile',
+            foreignKey: 'profileId'
+        });
         this.hasMany(models.PinIdProfile, {
             as: 'pinIdProfile',
             foreignKey: 'profileId'
         });
+       
     }
 
     static config(sequelize) {

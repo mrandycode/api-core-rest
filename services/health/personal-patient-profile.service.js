@@ -1,5 +1,5 @@
 const boom = require('@hapi/boom');
-const { models } = require('../../libs/sequelize');
+const { models, Op } = require('../../libs/sequelize');
 const constants = require('../../shared/constants');
 
 class PersonalPatientProfileService {
@@ -17,9 +17,29 @@ class PersonalPatientProfileService {
                 include: [...constants.PERSONAL_PATIENT_PROFILE]
             });
         if (!personalPatientProfile) {
-            throw boom.notFound('Profile not found');
+            throw boom.notFound('Profilesss not found');
         }
         return personalPatientProfile;
+    }
+
+    async findByFormTemplate(request, req) {
+        const personalPatientProfiles =
+            await models.PersonalPatientProfile.findAll({
+                where: {
+                    [Op.or]: [
+                        { dni: request.dni || null },
+                        { email: request.email || null },
+                        { lastName: { [Op.like]: `%${request.lastName || null}%` } }
+                    ],
+
+                }
+            });
+
+        if (personalPatientProfiles.length < 1) {
+            throw boom.notFound(req.t('NOT_FOUND'));
+        }
+
+        return personalPatientProfiles;
     }
 
     async create(request) {

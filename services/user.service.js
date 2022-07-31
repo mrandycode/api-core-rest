@@ -33,7 +33,8 @@ class UserService {
                     association: 'profile', include: [
                         { association: 'personalProfile', include: constants.PERSONAL_PROFILE },
                         { association: 'petProfile', include: constants.PET_PROFILE },
-                        { association: 'articleProfile', include: constants.ARTICLE_PROFILE }
+                        { association: 'articleProfile', include: constants.ARTICLE_PROFILE },
+                        { association: 'healthProfile', include: constants.HEALTH_PROFILE }
                     ]
 
                 },

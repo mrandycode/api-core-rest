@@ -25,6 +25,12 @@ module.exports = Object.freeze({
         'allergies',
         'medications',
         'surgeries'],
+    DOCTOR_PROFILE: [
+        'users'
+    ],
+    HEALTH_PROFILE: [
+        'personalPatientProfile'
+    ],
     SURGERY_DETAIL: [
         'surgeryHead'],
     SURGERY: [

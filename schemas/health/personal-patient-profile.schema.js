@@ -17,9 +17,18 @@ const city = Joi.string().optional().allow('').max(100);
 const state = Joi.string().optional().allow('').max(100);
 const zip = Joi.string().optional().allow('').max(20);
 const address = Joi.string().optional().allow('').max(1000);
+const vaccineCovid = Joi.string().optional().allow('').max(20);
+const doseQtyCovid = Joi.number().integer().optional().allow('').max(20);
+const profileId = Joi.number().integer();
 
 const getPersonalPatientProfileSchemaById = Joi.object({
     id: id.required()
+});
+
+const getPatientProfileSchemaByForm= Joi.object({
+    dni,
+    lastName,
+    email
 });
 
 const createPersonalPatientProfileSchema = Joi.object({
@@ -39,7 +48,10 @@ const createPersonalPatientProfileSchema = Joi.object({
     city, 
     state,
     zip,
-    address
+    address,
+    vaccineCovid,
+    doseQtyCovid,
+    profileId: profileId.required()
 });
 
 const updatePersonalPatientProfileSchema = Joi.object({
@@ -57,11 +69,15 @@ const updatePersonalPatientProfileSchema = Joi.object({
     city,
     state,
     zip,
-    address
+    address,
+    vaccineCovid,
+    doseQtyCovid,
+    profileId
 });
 
 module.exports = {
     getPersonalPatientProfileSchemaById,
+    getPatientProfileSchemaByForm,
     createPersonalPatientProfileSchema,
     updatePersonalPatientProfileSchema
 }

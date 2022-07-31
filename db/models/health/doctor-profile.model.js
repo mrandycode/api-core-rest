@@ -80,23 +80,11 @@ const DoctorProfileSchema = {
 
 class DoctorProfile extends Model {
     static associate(models) {
-        // this.belongsTo(models.Profile, { as: 'profile' });
-        this.hasMany(models.EmergencyContact, {
-            as: 'emergencyContacts',
-            foreignKey: 'personalProfileId'
-        });
-        this.hasMany(models.PreexistingDisease, {
-            as: 'preexistingDiseases',
-            foreignKey: 'personalProfileId'
-        });
-        this.hasMany(models.Allergy, {
-            as: 'allergies',
-            foreignKey: 'personalProfileId'
-        });
-        this.hasMany(models.Medication, {
-            as: 'medications',
-            foreignKey: 'personalProfileId'
-        });
+        this.belongsTo(models.User, { as: 'user' });
+        // this.hasMany(models.HealthProfile, {
+        //     as: 'healthProfiles',
+        //     foreignKey: 'personalPatientProfileId'
+        // });       
 
     }
 

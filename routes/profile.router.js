@@ -73,7 +73,7 @@ router.post('/pin-id-read',
 router.get('/:id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer', 'doctor'),
     async (req, res, next) => {
         const { id } = req.params;
         try {
@@ -105,7 +105,7 @@ router.post('/',
     passport.authenticate('jwt', { session: false }),
     validationHandler(createProfileSchema, 'body'),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer', 'doctor'),
     async (req, res, next) => {
         try {
             const body = req.body;
@@ -121,7 +121,7 @@ router.patch('/:id',
     validationHandler(getProfileSchema, 'params'),
     validationHandler(updateProfileSchema, 'body'),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer', 'doctor'),
     async (req, res, next) => {
         try {
             const { id } = req.params;
@@ -139,7 +139,7 @@ router.delete('/:id',
     validationHandler(getProfileSchema, 'params'),
     validationHandler(updateProfileSchema, 'body'),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer', 'doctor'),
     async (req, res, next) => {
         try {
             const { id } = req.params;

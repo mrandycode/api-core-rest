@@ -1,21 +1,18 @@
 const express = require('express');
-const PersonalPatientProfileService
-    = require('../../services/health/personal-patient-profile.service');
-const HealthProfileService
-    = require('../../services/health/health-profile.service');
+const HealthProfileService = require('../../services/health/health-profile.service');
+// const ProfileService = require('../services/profile.service');
 const {
-    getPersonalPatientProfileSchemaById,
-    getPatientProfileSchemaByForm,
-    createPersonalPatientProfileSchema,
-    updatePersonalPatientProfileSchema
-} = require('../../schemas/health/personal-patient-profile.schema');
+    getHealthProfileByIdSchema,
+    createHealthProfileSchema,
+    updateHealthProfileSchema
+} = require('../../schemas/health/health-profile.schema.');
 const validationHandler = require('../../middlewares/validator.handler');
-// const utils = require('../../shared/utils');
+const utils = require('../../shared/utils');
 const router = express.Router();
 const { checkApiKey, checkRoles } = require('../../middlewares/auth.handler');
 const passport = require('passport');
-const service = new PersonalPatientProfileService();
-const healthProfileService = new HealthProfileService();
+const service = new HealthProfileService();
+// const profileService = new ProfileService();
 
 router.get('/',
     passport.authenticate('jwt', { session: false }),
@@ -30,28 +27,11 @@ router.get('/',
     }
 );
 
-router.post('/get/by/forms',
-    passport.authenticate('jwt', { session: false }),
-    checkApiKey,
-    checkRoles('admin', 'doctor'),
-    validationHandler(getPatientProfileSchemaByForm),
-    async (req, res, next) => {
-        const request = req.body;
-        try {
-            const rta = await service.findByFormTemplate(request, req);
-            // utils.userTokenValidate(rta.profile.userId, req.user.sub);
-            res.json(rta);
-        } catch (error) {
-            next(error);
-        }
-    }
-);
-
 router.get('/:id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
     checkRoles('admin', 'doctor'),
-    validationHandler(getPersonalPatientProfileSchemaById),
+    validationHandler(getHealthProfileByIdSchema),
     async (req, res, next) => {
         const { id } = req.params;
         try {
@@ -60,32 +40,20 @@ router.get('/:id',
             res.json(rta);
         } catch (error) {
             next(error);
-        }
+        }`7`
     }
 );
 
 router.post('/',
     passport.authenticate('jwt', { session: false }),
-    validationHandler(createPersonalPatientProfileSchema, 'body'),
+    validationHandler(createHealthProfileSchema, 'body'),
     checkApiKey,
     checkRoles('admin', 'doctor'),
     async (req, res, next) => {
-        console.log(req, 'reasdadasdasdas')
         try {
             const body = req.body;
             res.statusMessage = req.t('CREATED_PROFILE');
-            const personalPatientProfile = await service.create(body);
-            // Se crea de una vez el perfil pivote de salud.
-            const { country, id } = personalPatientProfile;
-            const { profileId } = body;
-            const reqHealth = {
-                id: 0,
-                country,
-                personalPatientProfileId: id,
-                profileId,
-            };
-            await healthProfileService.create(reqHealth)
-            res.status(201).json(personalPatientProfile);
+            res.status(201).json(await service.create(body));
         } catch (error) {
             next(error);
         }
@@ -94,7 +62,7 @@ router.post('/',
 
 router.patch('/',
     passport.authenticate('jwt', { session: false }),
-    validationHandler(updatePersonalPatientProfileSchema, 'body'),
+    validationHandler(updateHealthProfileSchema, 'body'),
     checkRoles('admin', 'doctor'),
     async (req, res, next) => {
         try {
