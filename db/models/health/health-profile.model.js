@@ -34,8 +34,8 @@ const HealthProfileSchema = {
             model: PERSONAL_PATIENT_PROFILE_TABLE,
             key: 'id'
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        // onUpdate: 'CASCADE',
+        // onDelete: 'CASCADE'
     },
     profileId: {
         field: 'profile_id',
@@ -45,8 +45,8 @@ const HealthProfileSchema = {
             model: PROFILE_TABLE,
             key: 'id'
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        // onUpdate: 'CASCADE',
+        // onDelete: 'CASCADE'
     }
 }
 

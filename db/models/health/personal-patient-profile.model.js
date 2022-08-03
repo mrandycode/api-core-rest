@@ -108,6 +108,11 @@ class PersonalPatientProfile extends Model {
             foreignKey: 'personalPatientProfileId'
         });
 
+        this.hasMany(models.HealthProfile, {
+            as: 'healthProfiles',
+            foreignKey: 'personalPatientProfileId'
+        });
+
 
     }
 

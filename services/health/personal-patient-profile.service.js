@@ -1,5 +1,6 @@
 const boom = require('@hapi/boom');
 const { models, Op } = require('../../libs/sequelize');
+const { PersonalMedicalHistory } = require('../../db/models/health/personal-medical-history.model')
 const constants = require('../../shared/constants');
 
 class PersonalPatientProfileService {
@@ -14,7 +15,16 @@ class PersonalPatientProfileService {
     async findOne(id) {
         const personalPatientProfile =
             await models.PersonalPatientProfile.findByPk(id, {
-                include: [...constants.PERSONAL_PATIENT_PROFILE]
+                include: [...constants.PERSONAL_PATIENT_PROFILE],
+                order: [
+                    [{
+                        model: PersonalMedicalHistory,
+                        as: 'personalMedicalStories',
+
+                    },
+                        'appointmentDate', 'desc'],
+
+                ],
             });
         if (!personalPatientProfile) {
             throw boom.notFound('Profilesss not found');

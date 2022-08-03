@@ -52,8 +52,8 @@ const PersonalMedicalHistorySchema = {
             model: PERSONAL_PATIENT_TABLE,
             key: 'id'
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        // onUpdate: 'CASCADE',
+        // onDelete: 'CASCADE'
     }
 }
 
