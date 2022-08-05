@@ -113,7 +113,6 @@ class PersonalPatientProfile extends Model {
             foreignKey: 'personalPatientProfileId'
         });
 
-
     }
 
     static config(sequelize) {

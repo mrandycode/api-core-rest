@@ -19,7 +19,7 @@ const zip = Joi.string().optional().allow('').max(20);
 const address = Joi.string().optional().allow('').max(1000);
 const vaccineCovid = Joi.string().optional().allow('').max(20);
 const doseQtyCovid = Joi.number().integer().optional().allow('').max(20);
-// const profileId = Joi.number().integer();
+const userId = Joi.number().integer();
 
 const getPersonalPatientProfileSchemaById = Joi.object({
     id: id.required()
@@ -28,7 +28,8 @@ const getPersonalPatientProfileSchemaById = Joi.object({
 const getPatientProfileSchemaByForm= Joi.object({
     dni,
     lastName,
-    email
+    email,
+    userId
 });
 
 const createPersonalPatientProfileSchema = Joi.object({

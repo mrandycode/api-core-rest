@@ -1,5 +1,6 @@
 const boom = require('@hapi/boom');
 const { models, Op } = require('../../libs/sequelize');
+const { Sequelize } = require('sequelize');
 const { PersonalMedicalHistory } = require('../../db/models/health/personal-medical-history.model')
 const constants = require('../../shared/constants');
 
@@ -41,8 +42,17 @@ class PersonalPatientProfileService {
                         { email: request.email || null },
                         { lastName: { [Op.like]: `%${request.lastName || null}%` } }
                     ],
-
-                }
+                    [Op.and]: [
+                        { '$healthProfiles.profile.user_id$': request.userId }]
+                },
+                include: [...constants.PERSONAL_PATIENT_PROFILE, {
+                    model: models.HealthProfile,
+                    as: 'healthProfiles',
+                    include: ['profile', {
+                        model: models.Profile,
+                        as: 'profile'
+                    }]
+                }]
             });
 
         if (personalPatientProfiles.length < 1) {

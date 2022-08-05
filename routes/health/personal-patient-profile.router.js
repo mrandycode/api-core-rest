@@ -70,7 +70,6 @@ router.post('/',
     checkApiKey,
     checkRoles('admin', 'doctor'),
     async (req, res, next) => {
-        console.log(req, 'reasdadasdasdas')
         try {
             const body = req.body;
             res.statusMessage = req.t('CREATED_PROFILE');

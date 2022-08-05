@@ -15,7 +15,7 @@ const service = new MedicationService();
 router.get('/',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    checkRoles('admin'),
     async (req, res, next) => {
         try {
             res.json(await service.find());
@@ -28,7 +28,7 @@ router.get('/',
 router.get('/:id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer', 'doctor'),
     validationHandler(getMedicationSchemaById),
     async (req, res, next) => {
         const { id } = req.params;
@@ -44,7 +44,7 @@ router.post('/',
     passport.authenticate('jwt', { session: false }),
     // validationHandler(createMedicationSchema, 'body'),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer', 'doctor'),
     async (req, res, next) => {
         try {
             const body = req.body;
@@ -60,7 +60,7 @@ router.patch('/',
     passport.authenticate('jwt', { session: false }),
     // validationHandler(getMedicationSchemaById, 'params'),
     // validationHandler(updateMedicationSchema, 'body'),
-    checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer', 'doctor'),
     async (req, res, next) => {
         try {
             const body = req.body;
@@ -78,7 +78,7 @@ router.delete('/',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
     validationHandler(deleteMedicationSchema, 'body'),
-    checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer', 'doctor'),
     async (req, res, next) => {
         try {
             const body = req.body;

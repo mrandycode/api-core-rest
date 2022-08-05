@@ -30,7 +30,8 @@ module.exports = Object.freeze({
         'users'
     ],
     HEALTH_PROFILE: [
-        'personalPatientProfile'
+        'personalPatientProfile',
+        'profile',
     ],
     SURGERY_DETAIL: [
         'surgeryHead'],
