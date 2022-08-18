@@ -1,6 +1,5 @@
 const boom = require('@hapi/boom');
 const { models, Op } = require('../../libs/sequelize');
-const { Sequelize } = require('sequelize');
 const { PersonalMedicalHistory } = require('../../db/models/health/personal-medical-history.model')
 const constants = require('../../shared/constants');
 
@@ -13,18 +12,21 @@ class PersonalPatientProfileService {
         return personalPatientProfiles;
     }
 
-    async findOne(id) {
+    async findOne(request) {
         const personalPatientProfile =
-            await models.PersonalPatientProfile.findByPk(id, {
-                include: [...constants.PERSONAL_PATIENT_PROFILE],
+            await models.PersonalPatientProfile.findByPk(request.id, {
+                include: [...constants.PERSONAL_PATIENT_PROFILE,
+                {
+                    model: models.PersonalMedicalHistory,
+                    as: 'personalMedicalStories',
+                    where: { userId: request.userId }
+                }],
                 order: [
                     [{
                         model: PersonalMedicalHistory,
                         as: 'personalMedicalStories',
-
                     },
                         'appointmentDate', 'desc'],
-
                 ],
             });
         if (!personalPatientProfile) {
@@ -34,31 +36,90 @@ class PersonalPatientProfileService {
     }
 
     async findByFormTemplate(request, req) {
-        const personalPatientProfiles =
-            await models.PersonalPatientProfile.findAll({
+        let options = null;
+        let filterFinal = {};
+        const filterProfileNotNew = {
+            userId: request.userId,
+        }
+        const filterProfileNew = {
+            userId: { [Op.ne]: request.userId }
+        }
+
+        const operatorOr = [
+            { dni: request.dni || null },
+            { email: request.email || null },
+            { lastName: { [Op.like]: `%${request.lastName || null}%` } }
+        ];
+
+
+        if (!request.isNew) {
+            filterFinal = filterProfileNotNew;
+        } else {
+            filterFinal = filterProfileNew;
+        }
+
+        let filterProfiles = [...constants.PERSONAL_PATIENT_PROFILE, {
+            model: models.HealthProfile,
+            as: 'healthProfiles',
+            include: ['profile', {
+                model: models.Profile,
+                as: 'profile',
+                where: filterFinal,
+            }
+            ]
+        }];
+
+        if (!request.isNew) {
+            options = {
                 where: {
-                    [Op.or]: [
-                        { dni: request.dni || null },
-                        { email: request.email || null },
-                        { lastName: { [Op.like]: `%${request.lastName || null}%` } }
-                    ],
-                    [Op.and]: [
-                        { '$healthProfiles.profile.user_id$': request.userId }]
+                    [Op.or]: operatorOr,
+                    [Op.and]: { '$healthProfiles.profile.user_id$': request.userId },
                 },
-                include: [...constants.PERSONAL_PATIENT_PROFILE, {
-                    model: models.HealthProfile,
-                    as: 'healthProfiles',
-                    include: ['profile', {
-                        model: models.Profile,
-                        as: 'profile'
-                    }]
-                }]
-            });
+                include: filterProfiles
+            }
+
+        } else {
+            options = {
+                where: {
+                    '$healthProfiles.profile.user_id$': { [Op.ne]: request.userId },
+                    [Op.or]: operatorOr,
+                },
+                include: filterProfiles
+            }
+        }
+
+        const personalPatientProfiles =
+            await models.PersonalPatientProfile.findAll(options);
 
         if (personalPatientProfiles.length < 1) {
             throw boom.notFound(req.t('NOT_FOUND'));
         }
 
+        return personalPatientProfiles;
+    }
+
+    async getPatientsLimited(request, req) {
+        const personalPatientProfiles =
+            await models.PersonalPatientProfile.findAll({
+                limit: parseInt(request.limit),
+                offset: parseInt(request.offset),
+                include: [...constants.PERSONAL_PATIENT_PROFILE, {
+                    model: models.HealthProfile,
+                    as: 'healthProfiles',
+                    include: ['profile', {
+                        model: models.Profile,
+                        as: 'profile',
+                        where: {
+                            userId: request.userId,
+                        },
+                    }]
+                },
+                ],
+            });
+
+        if (personalPatientProfiles.length < 1) {
+            throw boom.notFound(req.t('NOT_FOUND'));
+        }
         return personalPatientProfiles;
     }
 

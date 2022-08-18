@@ -34,7 +34,7 @@ router.post('/get/by/forms',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
     checkRoles('admin', 'doctor'),
-    validationHandler(getPatientProfileSchemaByForm),
+    // validationHandler(getPatientProfileSchemaByForm),
     async (req, res, next) => {
         const request = req.body;
         try {
@@ -47,15 +47,35 @@ router.post('/get/by/forms',
     }
 );
 
-router.get('/:id',
+router.post('/get/limited',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
     checkRoles('admin', 'doctor'),
-    validationHandler(getPersonalPatientProfileSchemaById),
+    // validationHandler(getPatientProfileSchemaByForm),
     async (req, res, next) => {
-        const { id } = req.params;
+        const request = req.body;
+        const { limit, offset } = req.query;
+        request.limit = limit;
+        request.offset = offset;
         try {
-            const rta = await service.findOne(id);
+            const rta = await service.getPatientsLimited(request, req);
+            // utils.userTokenValidate(rta.profile.userId, req.user.sub);
+            res.json(rta);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+router.post('/get/personal-patient',
+    passport.authenticate('jwt', { session: false }),
+    checkApiKey,
+    checkRoles('admin', 'doctor'),
+    validationHandler(getPersonalPatientProfileSchemaById, 'body'),
+    async (req, res, next) => {
+        const request = req.body;
+        try {
+            const rta = await service.findOne(request);
             // utils.userTokenValidate(rta.profile.userId, req.user.sub);
             res.json(rta);
         } catch (error) {

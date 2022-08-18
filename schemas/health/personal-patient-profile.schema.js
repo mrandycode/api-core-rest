@@ -22,7 +22,8 @@ const doseQtyCovid = Joi.number().integer().optional().allow('').max(20);
 const userId = Joi.number().integer();
 
 const getPersonalPatientProfileSchemaById = Joi.object({
-    id: id.required()
+    id: id.required(),
+    userId: userId.required()
 });
 
 const getPatientProfileSchemaByForm= Joi.object({
@@ -52,11 +53,11 @@ const createPersonalPatientProfileSchema = Joi.object({
     address,
     vaccineCovid,
     doseQtyCovid,
-    // profileId: profileId.required()
+    userId: userId.required()
 });
 
 const updatePersonalPatientProfileSchema = Joi.object({
-    id,
+    id: id.required(),
     name,
     lastName,
     image,
@@ -73,7 +74,7 @@ const updatePersonalPatientProfileSchema = Joi.object({
     address,
     vaccineCovid,
     doseQtyCovid,
-    // profileId
+    userId: userId.required()
 });
 
 module.exports = {

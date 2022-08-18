@@ -1,6 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const PERSON_MEDICAL_STORIES_TABLE = 'personal_medical_stories';
 const PERSONAL_PATIENT_TABLE = require('./personal-patient-profile.model');
+const USER_TABLE = require('./../user.model');
 
 const PersonalMedicalHistorySchema = {
     id: {
@@ -54,6 +55,17 @@ const PersonalMedicalHistorySchema = {
         },
         // onUpdate: 'CASCADE',
         // onDelete: 'CASCADE'
+    },
+    userId: {
+        field: 'user_id',
+        type: DataTypes.INTEGER,
+        unique: false,
+        references: {
+            model: USER_TABLE,
+            key: 'id'
+        },
+        // onUpdate: 'CASCADE',
+        // onDelete: 'CASCADE'
     }
 }
 
@@ -61,6 +73,7 @@ class PersonalMedicalHistory extends Model {
 
     static associate(models) {
         this.belongsTo(models.PersonalPatientProfile, { as: 'personalPatientProfile' });
+        this.belongsTo(models.User, { as: 'user' });
 
     }
 

@@ -40,7 +40,7 @@ router.get('/:id',
             res.json(rta);
         } catch (error) {
             next(error);
-        }`7`
+        }
     }
 );
 
