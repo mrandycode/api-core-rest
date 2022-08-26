@@ -23,30 +23,42 @@ class DoctorProfileService {
         return doctorProfile;
     }
 
-    async create(request) {
-        let response;
-        const newDoctorProfile = await models.DoctorProfile.create(request);
-        if (newDoctorProfile) {
-            response = await this.findOne(newDoctorProfile.id);
-        }
-        return response;
+    async findOneByUserId(id) {
+        const doctorProfile = await models.DoctorProfile.findOne({
+           where: { userId: 86 } ,
+            include: [...constants.DOCTOR_PROFILE]
+        });
+    if(!doctorProfile) {
+        throw boom.notFound('Profile not found');
     }
+        return doctorProfile;
+    }
+
+
+    async create(request) {
+    let response;
+    const newDoctorProfile = await models.DoctorProfile.create(request);
+    if (newDoctorProfile) {
+        response = await this.findOne(newDoctorProfile.id);
+    }
+    return response;
+}
 
     async update(id, request) {
-        const doctorProfile = await this.findOne(id);
-        if (doctorProfile) {
-            const response = await models.DoctorProfile.update(request,
-                { where: { id: request.id } });
-            return response;
-        } else {
-            return [0]
-        }
+    const doctorProfile = await this.findOne(id);
+    if (doctorProfile) {
+        const response = await models.DoctorProfile.update(request,
+            { where: { id: request.id } });
+        return response;
+    } else {
+        return [0]
     }
+}
 
-    async delete(id) {
-        const doctorProfile = await this.findOne(id);
-        await doctorProfile.destroy();
-        return { response: true };
-    }
+    async delete (id) {
+    const doctorProfile = await this.findOne(id);
+    await doctorProfile.destroy();
+    return { response: true };
+}
 }
 module.exports = DoctorProfileService;

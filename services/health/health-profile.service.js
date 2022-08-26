@@ -23,6 +23,7 @@ class HealthProfileService {
     }
 
     async create(request) {
+        console.warn(request, 'requestHealt--')
         let response;
         const newHealthProfile = await models.HealthProfile.create(request);
         if (newHealthProfile) {

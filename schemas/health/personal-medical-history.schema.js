@@ -7,6 +7,7 @@ const reasonId = Joi.number().integer();
 const reasonDescription = Joi.string().optional().allow('').max(2000);
 const treatment = Joi.string().optional().allow('').max(2000);
 const personalPatientProfileId = Joi.number().integer();
+const userId = Joi.number().integer();
 
 const getPersonalMedicalHistorySchema = Joi.object({
     id: id.required()
@@ -19,7 +20,8 @@ const createPersonalMedicalHistorySchema = Joi.object({
     reasonId,
     reasonDescription,
     treatment,
-    personalPatientProfileId: personalPatientProfileId.required()
+    personalPatientProfileId: personalPatientProfileId.required(),
+    userId: userId.required()
 });
 
 const updatePersonalMedicalHistorySchema = Joi.object({
@@ -29,7 +31,8 @@ const updatePersonalMedicalHistorySchema = Joi.object({
     reasonId,
     reasonDescription,
     treatment,
-    personalPatientProfileId: personalPatientProfileId.required()
+    personalPatientProfileId: personalPatientProfileId.required(),
+    userId: userId.required()
 });
 
 module.exports = {

@@ -44,6 +44,23 @@ router.get('/:id',
     }
 );
 
+router.get('/user-id/:id',
+    passport.authenticate('jwt', { session: false }),
+    checkApiKey,
+    checkRoles('admin', 'doctor'),
+    validationHandler(getDoctorProfileSchemaById),
+    async (req, res, next) => {
+        const { id } = req.params;
+        try {
+            const rta = await service.findOneByUserId(id);
+            // utils.userTokenValidate(rta.profile.userId, req.user.sub);
+            res.json(rta);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
 router.post('/',
     passport.authenticate('jwt', { session: false }),
     validationHandler(createDoctorProfileSchema, 'body'),

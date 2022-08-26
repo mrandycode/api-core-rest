@@ -19,12 +19,20 @@ class PersonalPatientProfileService {
                 {
                     model: models.PersonalMedicalHistory,
                     as: 'personalMedicalStories',
-                    where: { userId: request.userId }
-                }],
+                    required: false,
+                    where: {
+                        [Op.or]: [
+                            { id: request.id },
+                            { userId: request.userId }
+                        ]
+                    }
+                }
+                ],
                 order: [
                     [{
                         model: PersonalMedicalHistory,
                         as: 'personalMedicalStories',
+                        required: false
                     },
                         'appointmentDate', 'desc'],
                 ],
@@ -128,17 +136,18 @@ class PersonalPatientProfileService {
         const newPersonalPatientProfile =
             await models.PersonalPatientProfile.create(request);
         if (newPersonalPatientProfile) {
-            response = await this.findOne(newPersonalPatientProfile.id);
+            request = { ...request, id: newPersonalPatientProfile.id }
+            response = await this.findOne(request);
         }
         return response;
     }
 
-    async update(id, request) {
-        const personalPatientProfile = await this.findOne(id);
+    async update(request) {
+        const personalPatientProfile = await this.findOne(request);
         if (personalPatientProfile) {
-            const response = await models.PersonalPatientProfile.update(request,
+            await models.PersonalPatientProfile.update(request,
                 { where: { id: request.id } });
-            return response;
+            return await this.findOne(request);
         } else {
             return [0]
         }

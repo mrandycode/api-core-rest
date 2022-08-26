@@ -103,6 +103,7 @@ router.post('/',
                 personalPatientProfileId: id,
                 profileId,
             };
+            console.log(reqHealth, 'reqHealthsssss')
             await healthProfileService.create(reqHealth)
             res.status(201).json(personalPatientProfile);
         } catch (error) {
@@ -118,12 +119,12 @@ router.patch('/',
     async (req, res, next) => {
         try {
             const body = req.body;
-            const { id, profileId } = body;
-            // const profile = await profileService.findOne(profileId);
+            // const { id, profileId } = body;
+            // const personalPatientProfile = await service.update(profileId);
             // const userId = profile.user.id;
             // utils.userTokenValidate(userId, req.user.sub);
             res.statusMessage = req.t('UPDATED');
-            res.status(201).json(await service.update(id, body));
+            res.status(201).json(await service.update(body));
         } catch (error) {
             next(error);
         }
