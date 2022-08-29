@@ -7,7 +7,7 @@ const URI = `mysql://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${con
 
 const sequelize = new Sequelize(URI, {
     dialect: 'mysql',
-    logging: true
+    logging: false
 });
 
 setupModels(sequelize);

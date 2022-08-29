@@ -51,6 +51,7 @@ router.get('/user-id/:id',
     validationHandler(getDoctorProfileSchemaById),
     async (req, res, next) => {
         const { id } = req.params;
+        console.log(req.body, 'req.body;asldasds');
         try {
             const rta = await service.findOneByUserId(id);
             // utils.userTokenValidate(rta.profile.userId, req.user.sub);

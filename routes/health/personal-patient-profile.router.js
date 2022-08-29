@@ -103,7 +103,6 @@ router.post('/',
                 personalPatientProfileId: id,
                 profileId,
             };
-            console.log(reqHealth, 'reqHealthsssss')
             await healthProfileService.create(reqHealth)
             res.status(201).json(personalPatientProfile);
         } catch (error) {
@@ -118,13 +117,25 @@ router.patch('/',
     checkRoles('admin', 'doctor'),
     async (req, res, next) => {
         try {
+            // todo: solucionar el tema para guardar el healt profile. lo más seguro es que haya que agregar nuevo campo
             const body = req.body;
             // const { id, profileId } = body;
             // const personalPatientProfile = await service.update(profileId);
             // const userId = profile.user.id;
             // utils.userTokenValidate(userId, req.user.sub);
             res.statusMessage = req.t('UPDATED');
-            res.status(201).json(await service.update(body));
+            const personalPatientProfile = await service.update(body)
+            // Se crea de una vez el perfil pivote de salud.
+            const { country, id } = personalPatientProfile;
+            const { profileId } = body;
+            const reqHealth = {
+                id: 0,
+                country,
+                personalPatientProfileId: id,
+                profileId,
+            };
+            await healthProfileService.create(reqHealth)
+            res.status(201).json();
         } catch (error) {
             next(error);
         }

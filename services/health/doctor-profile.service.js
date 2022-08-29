@@ -25,7 +25,7 @@ class DoctorProfileService {
 
     async findOneByUserId(id) {
         const doctorProfile = await models.DoctorProfile.findOne({
-           where: { userId: 86 } ,
+           where: { userId: id } ,
             include: [...constants.DOCTOR_PROFILE]
         });
     if(!doctorProfile) {

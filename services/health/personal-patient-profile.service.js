@@ -44,6 +44,7 @@ class PersonalPatientProfileService {
     }
 
     async findByFormTemplate(request, req) {
+
         let options = null;
         let filterFinal = {};
         const filterProfileNotNew = {
@@ -56,9 +57,8 @@ class PersonalPatientProfileService {
         const operatorOr = [
             { dni: request.dni || null },
             { email: request.email || null },
-            { lastName: { [Op.like]: `%${request.lastName || null}%` } }
+            { lastName: { [Op.like]: `%${request.lastName || null}%` } },
         ];
-
 
         if (!request.isNew) {
             filterFinal = filterProfileNotNew;
@@ -89,8 +89,9 @@ class PersonalPatientProfileService {
         } else {
             options = {
                 where: {
-                    '$healthProfiles.profile.user_id$': { [Op.ne]: request.userId },
                     [Op.or]: operatorOr,
+                    [Op.and]: { '$healthProfiles.profile.user_id$': { [Op.ne]: request.userId } },
+
                 },
                 include: filterProfiles
             }
