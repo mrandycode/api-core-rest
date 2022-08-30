@@ -124,22 +124,44 @@ router.patch('/',
             // const userId = profile.user.id;
             // utils.userTokenValidate(userId, req.user.sub);
             res.statusMessage = req.t('UPDATED');
-            const personalPatientProfile = await service.update(body)
-            // Se crea de una vez el perfil pivote de salud.
-            const { country, id } = personalPatientProfile;
-            const { profileId } = body;
-            const reqHealth = {
-                id: 0,
-                country,
-                personalPatientProfileId: id,
-                profileId,
-            };
-            await healthProfileService.create(reqHealth)
-            res.status(201).json();
+            const personalPatientProfile = await service.update(body);
+
+            // if (body.isNew) {
+            //     const { country, id } = personalPatientProfile;
+            //     const { profileId } = body;
+            //     const reqHealth = {
+            //         id: 0,
+            //         country,
+            //         personalPatientProfileId: id,
+            //         profileId,
+            //     };
+            //     await healthProfileService.create();
+            // }
+
+            res.status(201).json(await addToHealthProfile(body, personalPatientProfile));
         } catch (error) {
             next(error);
         }
     }
+
+
 );
+
+const addToHealthProfile = async (body, personalPatientProfile) => {
+    console.log(body, 'body');
+    console.log(personalPatientProfile, 'personalPatientProfile');
+    const { country, id } = personalPatientProfile;
+    const { profileId, isNew } = body;
+    if (isNew) {
+        const reqHealth = {
+            id: 0,
+            country,
+            personalPatientProfileId: id,
+            profileId,
+        };
+        await healthProfileService.create(reqHealth);
+    }
+    return personalPatientProfile;
+}
 
 module.exports = router;

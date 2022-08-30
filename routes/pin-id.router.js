@@ -64,7 +64,7 @@ router.get('/generate-qr/:country/:limit',
         try {
 
             QRCode.toString('I am a pony!', { type: 'terminal' }, function (err, url) {
-                console.log(url)
+               
             });
 
             res.json(await service.findByCountry(country, parseInt(limit, 10)));

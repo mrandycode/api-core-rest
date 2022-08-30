@@ -21,6 +21,7 @@ const vaccineCovid = Joi.string().optional().allow('' || null).max(20);
 const doseQtyCovid = Joi.number().integer().optional().allow('' || null).max(20);
 const userId = Joi.number().integer();
 const profileId = Joi.number().integer();
+const isNew = Joi.boolean();
 
 const getPersonalPatientProfileSchemaById = Joi.object({
     id: id.required(),
@@ -76,7 +77,9 @@ const updatePersonalPatientProfileSchema = Joi.object({
     address,
     vaccineCovid,
     doseQtyCovid,
-    userId: userId.required()
+    userId: userId.required(),
+    profileId,
+    isNew
 });
 
 module.exports = {

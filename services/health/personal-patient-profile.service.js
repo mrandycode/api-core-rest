@@ -44,7 +44,7 @@ class PersonalPatientProfileService {
     }
 
     async findByFormTemplate(request, req) {
-
+        console.log(request, 'buscando otro error');
         let options = null;
         let filterFinal = {};
         const filterProfileNotNew = {

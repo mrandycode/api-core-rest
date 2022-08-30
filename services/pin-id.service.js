@@ -23,7 +23,6 @@ class PinIdService {
             type: QueryTypes.INSERT,
             raw: true
         }).then((response) => {
-            console.log(response);
             rta.message = response;
             return rta;
 
