@@ -1,4 +1,6 @@
 const { config } = require('../config/config');
+const { models } = require('../libs/sequelize');
+
 
 module.exports = Object.freeze({
     PERSONAL_PROFILE: [
@@ -30,7 +32,21 @@ module.exports = Object.freeze({
         'user'
     ],
     HEALTH_PROFILE: [
-        'personalPatientProfile',
+        {
+            model: models.PersonalPatientProfile,
+            as: 'personalPatientProfile',
+            include: ['personalMedicalStories', {
+                model: models.PersonalMedicalHistory,
+                as: 'personalMedicalStories'
+            },
+            'personalMedicalStories',
+            'preexistingDiseases',
+            'allergies',
+            'medications',
+            'surgeries',
+            ]
+        },
+
         'profile',
     ],
     SURGERY_DETAIL: [

@@ -148,8 +148,6 @@ router.patch('/',
 );
 
 const addToHealthProfile = async (body, personalPatientProfile) => {
-    console.log(body, 'body');
-    console.log(personalPatientProfile, 'personalPatientProfile');
     const { country, id } = personalPatientProfile;
     const { profileId, isNew } = body;
     if (isNew) {

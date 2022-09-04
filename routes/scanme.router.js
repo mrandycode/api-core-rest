@@ -46,8 +46,6 @@ router.post('/send',
             scanme.dateTimeOn = dateTimeOn;
             scanme.nameProfile = nameProfile;
             scanme.hostname = hostname;
-            
-            // console.log(os.hostname(), 'hostname')
 
             const bodyEmail = utils.getEmailScanMe(user, token, scanme, req);
             const options = constants.EMAIL_SCANME;
