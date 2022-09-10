@@ -68,7 +68,7 @@ router.post('/',
     checkRoles('admin', 'doctor'),
     async (req, res, next) => {
         try {
-            const body = req.body;
+            const body = req.body;            
             res.statusMessage = req.t('CREATED_PROFILE');
             res.status(201).json(await service.create(body));
         } catch (error) {

@@ -11,7 +11,7 @@ const utils = require('../shared/utils');
 const jwt = require('jsonwebtoken');
 const { config } = require('../config/config');
 
-// const os = require("os");
+// const os = require("os");o
 
 router.post('/send',
     validatorHandler(getScanMeSchema, 'body'),
@@ -42,7 +42,6 @@ router.post('/send',
             }
 
             scanme.ip = ipClient;
-
             scanme.dateTimeOn = dateTimeOn;
             scanme.nameProfile = nameProfile;
             scanme.hostname = hostname;

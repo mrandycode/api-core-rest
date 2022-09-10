@@ -2,6 +2,8 @@ const Joi = require('joi');
 
 const id = Joi.number().integer();
 const country = Joi.string().max(4);
+const name = Joi.string().max(100);
+const lastName = Joi.string().max(100);
 const dni = Joi.string().max(20);
 const image = Joi.string().optional().allow('');
 const birthday = Joi.string().optional().allow('');
@@ -24,6 +26,8 @@ const getDoctorProfileSchemaById = Joi.object({
 const createDoctorProfileSchema = Joi.object({
     id: id.required(),
     country: country.required(),
+    name: name.required(),
+    lastName: lastName.required(),
     dni: dni.required(),
     image,
     birthday: birthday.required(),
@@ -43,6 +47,8 @@ const createDoctorProfileSchema = Joi.object({
 const updateDoctorProfileSchema = Joi.object({
     id,
     country,
+    name,
+    lastName,
     dni,
     image,
     birthday,
