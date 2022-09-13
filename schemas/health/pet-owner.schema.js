@@ -10,22 +10,27 @@ const birthday = Joi.string().optional().allow('');
 const genre = Joi.string().optional().allow('');
 const mobile = Joi.string().optional().allow('').max(50);
 const phone = Joi.string().optional().allow('').max(50);
-const medicalRegisterA = Joi.string().optional().allow('').max(20);
-const medicalRegisterB = Joi.string().optional().allow('').max(20);
-const medicalRegisterC = Joi.string().optional().allow('').max(20);
+const email = Joi.string().optional().allow('').email().max(64);
 const city = Joi.string().optional().allow('').max(100);
 const state = Joi.string().optional().allow('').max(100);
 const zip = Joi.string().optional().allow('').max(20);
 const address = Joi.string().optional().allow('').max(1000);
-const qtyQrGiven = Joi.number().integer(10).optional();
-const specialty = Joi.string().optional().allow('').max(1000);
-const userId = Joi.number().integer();
+// const userId = Joi.number().integer();
+// const profileId = Joi.number().integer();
+// const isNew = Joi.boolean();
 
-const getDoctorProfileSchemaById = Joi.object({
-    id: id.required()
+const getOwnerSchemaById = Joi.object({
+    id: id.required(),
 });
 
-const createDoctorProfileSchema = Joi.object({
+const getOwnerSchemaByForm = Joi.object({
+    dni,
+    lastName,
+    email,
+    userId
+});
+
+const createOwnerSchema = Joi.object({
     id: id.required(),
     country: country.required(),
     name: name.required(),
@@ -36,43 +41,37 @@ const createDoctorProfileSchema = Joi.object({
     genre,
     mobile,
     phone,
-    medicalRegisterA,
-    medicalRegisterB,
-    medicalRegisterC,
+    email,
     city,
     state,
     zip,
     address,
-    qtyQrGiven,
-    specialty,
-    userId: userId.required()
+    // userId: userId.required(),
+    // profileId: profileId.required()
 });
 
-const updateDoctorProfileSchema = Joi.object({
-    id,
-    country,
+const updateOwnerSchema = Joi.object({
+    id: id.required(),
     name,
     lastName,
-    dni,
     image,
     birthday,
     genre,
     mobile,
     phone,
-    medicalRegisterA,
-    medicalRegisterB,
-    medicalRegisterC,
+    email,
     city,
     state,
     zip,
     address,
-    qtyQrGiven,
-    specialty,
-    userId
+    // userId: userId.required(),
+    // profileId,
+    // isNew
 });
 
 module.exports = {
-    getDoctorProfileSchemaById,
-    createDoctorProfileSchema,
-    updateDoctorProfileSchema
+    getOwnerSchemaById,
+    getOwnerSchemaByForm,
+    createOwnerSchema,
+    updateOwnerSchema
 }

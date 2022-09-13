@@ -1,8 +1,7 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { USER_TABLE } = require('../user.model');
-const DOCTOR_PROFILE_TABLE = 'doctor_profiles';
+const PET_OWNERS_TABLE = 'pet_owners';
 
-const DoctorProfileSchema = {
+const PetOwnerSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,6 +11,15 @@ const DoctorProfileSchema = {
     country: {
         allowNull: false,
         type: DataTypes.STRING(4),
+    },
+    name: {
+        allowNull: false,
+        type: DataTypes.STRING(100),
+    },
+    lastName: {
+        allowNull: false,
+        type: DataTypes.STRING(100),
+        field: 'last_name',
     },
     dni: {
         allowNull: false,
@@ -34,17 +42,9 @@ const DoctorProfileSchema = {
     phone: {
         type: DataTypes.STRING(50),
     },
-    medicalRegisterA: {
-        type: DataTypes.STRING(20),
-        field: 'medical_register_a',
-    },
-    medicalRegisterB: {
-        type: DataTypes.STRING(20),
-        field: 'medical_register_b',
-    },
-    medicalRegisterC: {
-        type: DataTypes.STRING(20),
-        field: 'medical_register_c',
+    email: {
+        type: DataTypes.STRING(64),
+        isEmail: true,
     },
     city: {
         type: DataTypes.STRING(100),
@@ -58,14 +58,6 @@ const DoctorProfileSchema = {
     address: {
         type: DataTypes.STRING(1000),
     },
-    qtyQrGiven: {
-        field: 'qty_qr_given',
-        type: DataTypes.INTEGER(10),
-    },
-    specialty: {
-        field: 'specialty',
-        type: DataTypes.STRING(1000),
-    },
     createdAt: {
         allowNull: false,
         type: DataTypes.DATE,
@@ -77,41 +69,30 @@ const DoctorProfileSchema = {
         type: DataTypes.DATE,
         field: 'updated_at',
         defaultValue: Sequelize.NOW
-    },
-    userId: {
-        field: 'user_id',
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        unique: true,
-        references: {
-            model: USER_TABLE,
-            key: 'id'
-        }
     }
 }
 
-class DoctorProfile extends Model {
+class PetOwner extends Model {
     static associate(models) {
-        this.belongsTo(models.User, { as: 'user' });
-        // this.hasMany(models.HealthProfile, {
-        //     as: 'healthProfiles',
-        //     foreignKey: 'personalPatientProfileId'
-        // });       
+        this.hasMany(models.PetPatientProfile, {
+            as: 'petPatientProfiles',
+            foreignKey: 'petOwnerId'
+        });
 
     }
 
     static config(sequelize) {
         return {
             sequelize,
-            tableName: DOCTOR_PROFILE_TABLE,
-            modelName: 'DoctorProfile',
+            tableName: PET_OWNERS_TABLE,
+            modelName: 'PetOwner',
             timestamps: true
         }
     }
 }
 
 module.exports = {
-    DOCTOR_PROFILE_TABLE,
-    DoctorProfileSchema,
-    DoctorProfile
+    PET_OWNERS_TABLE,
+    PetOwnerSchema,
+    PetOwner
 }
