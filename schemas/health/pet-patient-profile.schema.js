@@ -11,11 +11,15 @@ const breed = Joi.string().optional().allow('').max(100);
 const color = Joi.string().optional().allow('').max(50);
 const age = Joi.string().optional().allow('').max(20);
 const reward = Joi.boolean().optional().allow(false);
+const petOwnerId = Joi.number().integer();
+const userId = Joi.number().integer();
+
 // const profileId = Joi.number().integer();
 // const isNew = Joi.boolean();
 
 const getPetPatientProfileSchemaById = Joi.object({
-    id: id
+    id: id,
+    userId: userId.required(),
 });
 
 const createPetPatientProfileSchema = Joi.object({
@@ -30,11 +34,14 @@ const createPetPatientProfileSchema = Joi.object({
     color,
     age,
     reward,
+    petOwnerId: petOwnerId.required(),
+    userId: userId.required(),
     // profileId: profileId.required()
 });
 
 const updatePetProfileProfileSchema = Joi.object({
     id,
+    country: country.required(),
     name: name.required(),
     image,
     license,
@@ -44,6 +51,8 @@ const updatePetProfileProfileSchema = Joi.object({
     color,
     age,
     reward,
+    petOwnerId: petOwnerId.required(),
+    userId: userId.required(),
     // profileId
 });
 

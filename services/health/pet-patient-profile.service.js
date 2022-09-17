@@ -156,6 +156,7 @@ class PetPatientProfileService {
         let response;
         const newPetPatientProfile =
             await models.PetPatientProfile.create(request);
+        
         if (newPetPatientProfile) {
             request = { ...request, id: newPetPatientProfile.id }
             response = await this.findOne(request);

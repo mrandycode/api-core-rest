@@ -1,5 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 const PERSONAL_PATIENT_TABLE = require('./personal-patient-profile.model');
+const PET_PATIENT_TABLE = require('./pet-patient-profile.model');
 const SURGERIES_TABLE = 'surgeries';
 
 const SurgerySchema = {
@@ -35,6 +36,17 @@ const SurgerySchema = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
+    },
+    petPatientProfileId: {
+        field: 'pet_patient_profile_id',
+        type: DataTypes.INTEGER,
+        unique: false,
+        references: {
+            model: PET_PATIENT_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
     }
 }
 
@@ -42,6 +54,7 @@ class Surgery extends Model {
     static associate(models) {
         this.belongsTo(models.PersonalPatientProfile,
             { as: 'personalPatientProfile' });
+        this.belongsTo(models.PetPatientProfile, { as: 'petPatientProfile' });
     }
 
     static config(sequelize) {

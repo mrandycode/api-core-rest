@@ -13,6 +13,9 @@ const { DoctorProfile, DoctorProfileSchema } = require('./health/doctor-profile.
 const { HealthProfile, HealthProfileSchema } = require('./health/health-profile.model');
 const { PersonalMedicalHistory, PersonalMedicalHistorySchema } = require('./health/personal-medical-history.model');
 const { PersonalPatientProfile, PersonalPatientProfileSchema } = require('./health/personal-patient-profile.model');
+const { PetPatientProfile, PetPatientProfileSchema } = require('./health/pet-patient-profile.model');
+const { PetMedicalHistory, PetMedicalHistorySchema } = require('./health/pet-medical-history.model');
+const { PetOwner, PetOwnerSchema } = require('./health/pet-owner.model');
 const { SurgeryHead, SurgeryHeadSchema } = require('./health/surgery-head.model');
 const { SurgeryDetail, SurgeryDetailSchema } = require('./health/surgery-detail.model');
 const { Surgery, SurgerySchema } = require('./health/surgery.model');
@@ -31,8 +34,11 @@ function setupModels(sequelize) {
     PinIdProfile.init(PinIdProfileSchema, PinIdProfile.config(sequelize));
     DoctorProfile.init(DoctorProfileSchema, DoctorProfile.config(sequelize));
     HealthProfile.init(HealthProfileSchema, HealthProfile.config(sequelize));
-    PersonalMedicalHistory.init(PersonalMedicalHistorySchema, PersonalMedicalHistory.config(sequelize));
     PersonalPatientProfile.init(PersonalPatientProfileSchema, PersonalPatientProfile.config(sequelize));
+    PersonalMedicalHistory.init(PersonalMedicalHistorySchema, PersonalMedicalHistory.config(sequelize));
+    PetPatientProfile.init(PetPatientProfileSchema, PetPatientProfile.config(sequelize));
+    PetMedicalHistory.init(PetMedicalHistorySchema, PetMedicalHistory.config(sequelize));
+    PetOwner.init(PetOwnerSchema, PetOwner.config(sequelize));
     SurgeryHead.init(SurgeryHeadSchema, SurgeryHead.config(sequelize));
     SurgeryDetail.init(SurgeryDetailSchema, SurgeryDetail.config(sequelize));
     Surgery.init(SurgerySchema, Surgery.config(sequelize));
@@ -52,6 +58,9 @@ function setupModels(sequelize) {
     HealthProfile.associate(sequelize.models);
     PersonalMedicalHistory.associate(sequelize.models);
     PersonalPatientProfile.associate(sequelize.models);
+    PetPatientProfile.associate(sequelize.models);
+    PetMedicalHistory.associate(sequelize.models);
+    PetOwner.associate(sequelize.models);
     SurgeryHead.associate(sequelize.models);
     SurgeryDetail.associate(sequelize.models);
     Surgery.associate(sequelize.models);

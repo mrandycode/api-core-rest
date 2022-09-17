@@ -2,6 +2,7 @@ const { Model, DataTypes, Sequelize } = require('sequelize');
 const { PERSONAL_PROFILE_TABLE } = require('../models/personal-profile.model');
 const { PET_PROFILE_TABLE } = require('../models/pet-profile.model');
 const PERSONAL_PATIENT_TABLE = require('./health/personal-patient-profile.model');
+const PET_PATIENT_TABLE = require('./health/pet-patient-profile.model');
 const MEDICATIONS_TABLE = 'medications';
 
 const MedicationSchema = {
@@ -72,6 +73,17 @@ const MedicationSchema = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
+    },
+    petPatientProfileId: {
+        field: 'pet_patient_profile_id',
+        type: DataTypes.INTEGER,
+        unique: false,
+        references: {
+            model: PET_PATIENT_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
     }
 }
 
@@ -81,6 +93,7 @@ class Medication extends Model {
         this.belongsTo(models.PersonalProfile, { as: 'personal_profile' });
         this.belongsTo(models.PetProfile, { as: 'petProfile' });
         this.belongsTo(models.PersonalPatientProfile, { as: 'personalPatientProfile' });
+        this.belongsTo(models.PetPatientProfile, { as: 'petPatientProfile' });
     }
 
     static config(sequelize) {

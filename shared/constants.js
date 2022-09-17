@@ -29,7 +29,7 @@ module.exports = Object.freeze({
         'surgeries',
         'healthProfiles'],
     PET_PATIENT_PROFILE: [
-        'personalMedicalStories',
+        'petMedicalStories',
         'preexistingDiseases',
         'allergies',
         'medications',
@@ -47,6 +47,20 @@ module.exports = Object.freeze({
                 as: 'personalMedicalStories'
             },
                 'personalMedicalStories',
+                'preexistingDiseases',
+                'allergies',
+                'medications',
+                'surgeries',
+            ]
+        },
+        {
+            model: models.PetPatientProfile,
+            as: 'petPatientProfile',
+            include: ['petMedicalStories', {
+                model: models.PetMedicalHistory,
+                as: 'petMedicalStories'
+            },
+                'petMedicalStories',
                 'preexistingDiseases',
                 'allergies',
                 'medications',

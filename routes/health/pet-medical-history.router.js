@@ -1,12 +1,12 @@
 const express = require('express');
-const PersonalPatientMedicalHistory
-    = require('../../services/health/personal-medical-history.service');
+const PetPatientMedicalHistoryService
+    = require('../../services/health/pet-medical-history.service');
 const {
-    getPersonalMedicalHistorySchema,
-    createPersonalMedicalHistorySchema,
-    updatePersonalMedicalHistorySchema
+getPetMedicalHistorySchema,
+createPetMedicalHistorySchema,
+updatePetMedicalHistorySchema
 
-} = require('../../schemas/health/personal-medical-history.schema');
+} = require('../../schemas/health/pet-medical-history.schema')
 const validationHandler = require('../../middlewares/validator.handler');
 const deleteAttributes = require('../../middlewares/utility.handler');
 
@@ -14,7 +14,7 @@ const deleteAttributes = require('../../middlewares/utility.handler');
 const router = express.Router();
 const { checkApiKey, checkRoles } = require('../../middlewares/auth.handler');
 const passport = require('passport');
-const service = new PersonalPatientMedicalHistory();
+const service = new PetPatientMedicalHistoryService();
 
 router.get('/',
     passport.authenticate('jwt', { session: false }),
@@ -33,7 +33,7 @@ router.get('/:id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
     checkRoles('admin', 'doctor'),
-    validationHandler(getPersonalMedicalHistorySchema),
+    validationHandler(getPetMedicalHistorySchema),
     async (req, res, next) => {
         const { id } = req.params;
         try {
@@ -49,7 +49,7 @@ router.get('/:id',
 router.post('/',
     passport.authenticate('jwt', { session: false }),
     deleteAttributes(),
-    validationHandler(createPersonalMedicalHistorySchema, 'body'),
+    validationHandler(createPetMedicalHistorySchema, 'body'),
     checkApiKey,
     checkRoles('admin', 'doctor'),
     async (req, res, next) => {
@@ -65,7 +65,7 @@ router.post('/',
 router.patch('/',
     passport.authenticate('jwt', { session: false }),
     deleteAttributes(),
-    validationHandler(updatePersonalMedicalHistorySchema, 'body'),
+    validationHandler(updatePetMedicalHistorySchema, 'body'),
     checkRoles('admin', 'doctor'),
     async (req, res, next) => {
         try {

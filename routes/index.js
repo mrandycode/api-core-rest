@@ -6,6 +6,7 @@ const doctorProfileRouter = require('./health/doctor-profile.router');
 const petProfileRouter = require('./pet-profile.router');
 const personalPatientProfileRouter = require('./health/personal-patient-profile.router');
 const personalMedicalHistoryRouter = require('./health/personal-medical-history.router');
+const petPatientProfileRouter = require('./health/pet-patient-profile.router');
 const surgeryRouter = require('./health/surgery.router');
 const surgeryHeadRouter = require('./health/surgery-head.router');
 const articleProfileRouter = require('./article-profile.router');
@@ -27,6 +28,7 @@ function routerApi(app) {
     router.use('/pet-profile', petProfileRouter);
     router.use('/personal-patient-profile', personalPatientProfileRouter);
     router.use('/personal-medical-history', personalMedicalHistoryRouter);
+    router.use('/pet-patient-profile', petPatientProfileRouter);
     router.use('/surgery', surgeryRouter);
     router.use('/surgery-head', surgeryHeadRouter);
     router.use('/article-profile', articleProfileRouter);

@@ -2,7 +2,7 @@ const { Model, DataTypes, Sequelize } = require('sequelize');
 const { PET_OWNER_TABLE } = require('./pet-owner.model')
 const PET_PATIENT_PROFILE_TABLE = 'pet_patient_profiles';
 
-const PetPatienProfileSchema = {
+const PetPatientProfileSchema = {
     id: {
         allowNull: false,
         autoIncrement: true,
@@ -80,11 +80,6 @@ class PetPatientProfile extends Model {
             foreignKey: 'petPatientProfileId'
         });
 
-        this.hasMany(models.PreexistingDisease, {
-            as: 'preexistingDiseases',
-            foreignKey: 'petPatientProfileId'
-        });
-
         this.hasMany(models.Allergy, {
             as: 'allergies',
             foreignKey: 'petPatientProfileId'
@@ -99,6 +94,12 @@ class PetPatientProfile extends Model {
             as: 'surgeries',
             foreignKey: 'petPatientProfileId'
         });
+
+        this.hasMany(models.HealthProfile, {
+            as: 'healthProfiles',
+            foreignKey: 'petPatientProfileId'
+        });
+
     }
 
     static config(sequelize) {
@@ -113,6 +114,6 @@ class PetPatientProfile extends Model {
 
 module.exports = {
     PET_PATIENT_PROFILE_TABLE,
-    PetPatienProfileSchema,
+    PetPatientProfileSchema,
     PetPatientProfile
 }
