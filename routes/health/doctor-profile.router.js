@@ -30,7 +30,7 @@ router.get('/',
 router.get('/:id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'doctor'),
+    checkRoles('admin', 'doctor', 'veterinary'),
     validationHandler(getDoctorProfileSchemaById),
     async (req, res, next) => {
         const { id } = req.params;
@@ -47,7 +47,7 @@ router.get('/:id',
 router.get('/user-id/:id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'doctor'),
+    checkRoles('admin', 'doctor', 'veterinary'),
     validationHandler(getDoctorProfileSchemaById),
     async (req, res, next) => {
         const { id } = req.params;
@@ -65,7 +65,7 @@ router.post('/',
     passport.authenticate('jwt', { session: false }),
     validationHandler(createDoctorProfileSchema, 'body'),
     checkApiKey,
-    checkRoles('admin', 'doctor'),
+    checkRoles('admin', 'doctor', 'veterinary'),
     async (req, res, next) => {
         try {
             const body = req.body;            
@@ -80,7 +80,7 @@ router.post('/',
 router.patch('/',
     passport.authenticate('jwt', { session: false }),
     validationHandler(updateDoctorProfileSchema, 'body'),
-    checkRoles('admin', 'doctor'),
+    checkRoles('admin', 'doctor', 'veterinary'),
     async (req, res, next) => {
         try {
             const body = req.body;

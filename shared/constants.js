@@ -35,6 +35,21 @@ module.exports = Object.freeze({
         'medications',
         'surgeries',
         'healthProfiles'],
+    PET_OWNER: [
+        {
+            model: models.PetPatientProfile,
+            as: 'petPatientProfiles',
+            include: ['petMedicalStories', {
+                model: models.PetMedicalHistory,
+                as: 'petMedicalStories'
+            },
+                'preexistingDiseases',
+                'allergies',
+                'medications',
+                'surgeries',
+            ]
+        }
+    ],
     DOCTOR_PROFILE: [
         'user'
     ],

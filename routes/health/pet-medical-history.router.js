@@ -2,9 +2,9 @@ const express = require('express');
 const PetPatientMedicalHistoryService
     = require('../../services/health/pet-medical-history.service');
 const {
-getPetMedicalHistorySchema,
-createPetMedicalHistorySchema,
-updatePetMedicalHistorySchema
+    getPetMedicalHistorySchema,
+    createPetMedicalHistorySchema,
+    updatePetMedicalHistorySchema
 
 } = require('../../schemas/health/pet-medical-history.schema')
 const validationHandler = require('../../middlewares/validator.handler');
@@ -32,7 +32,7 @@ router.get('/',
 router.get('/:id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'doctor'),
+    checkRoles('admin', 'veterinary'),
     validationHandler(getPetMedicalHistorySchema),
     async (req, res, next) => {
         const { id } = req.params;
@@ -51,11 +51,11 @@ router.post('/',
     deleteAttributes(),
     validationHandler(createPetMedicalHistorySchema, 'body'),
     checkApiKey,
-    checkRoles('admin', 'doctor'),
+    checkRoles('admin', 'veterinary'),
     async (req, res, next) => {
         try {
-            const body = req.body;          
-            res.status(201).json( await service.create(body));
+            const body = req.body;
+            res.status(201).json(await service.create(body));
         } catch (error) {
             next(error);
         }
@@ -66,7 +66,7 @@ router.patch('/',
     passport.authenticate('jwt', { session: false }),
     deleteAttributes(),
     validationHandler(updatePetMedicalHistorySchema, 'body'),
-    checkRoles('admin', 'doctor'),
+    checkRoles('admin', 'veterinary'),
     async (req, res, next) => {
         try {
             const body = req.body;

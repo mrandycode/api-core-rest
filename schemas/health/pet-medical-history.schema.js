@@ -6,7 +6,7 @@ const appointmentDate =Joi.string().optional().allow('');
 const reasonId = Joi.number().integer();
 const reasonDescription = Joi.string().optional().allow('').max(2000);
 const treatment = Joi.string().optional().allow('').max(2000);
-const personalPatientProfileId = Joi.number().integer();
+const petPatientProfileId = Joi.number().integer();
 const userId = Joi.number().integer();
 
 const getPetMedicalHistorySchema = Joi.object({
@@ -20,7 +20,7 @@ const createPetMedicalHistorySchema = Joi.object({
     reasonId,
     reasonDescription,
     treatment,
-    personalPatientProfileId: personalPatientProfileId.required(),
+    petPatientProfileId: petPatientProfileId.required(),
     userId: userId.required()
 });
 
@@ -31,7 +31,7 @@ const updatePetMedicalHistorySchema = Joi.object({
     reasonId,
     reasonDescription,
     treatment,
-    personalPatientProfileId: personalPatientProfileId.required(),
+    petPatientProfileId: petPatientProfileId.required(),
     userId: userId.required()
 });
 

@@ -78,7 +78,6 @@ class PetOwner extends Model {
             as: 'petPatientProfiles',
             foreignKey: 'petOwnerId'
         });
-
     }
 
     static config(sequelize) {

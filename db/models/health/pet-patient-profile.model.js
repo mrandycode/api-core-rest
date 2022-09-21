@@ -98,7 +98,7 @@ class PetPatientProfile extends Model {
         this.hasMany(models.HealthProfile, {
             as: 'healthProfiles',
             foreignKey: 'petPatientProfileId'
-        });
+        });   
 
     }
 

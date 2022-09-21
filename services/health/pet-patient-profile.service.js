@@ -57,7 +57,6 @@ class PetPatientProfileService {
         const operatorOr = [
             { dni: request.dni || null },
             { email: request.email || null },
-            { lastName: { [Op.like]: `%${request.lastName || null}%` } },
         ];
 
         if (!request.isNew) {

@@ -15,9 +15,9 @@ const city = Joi.string().optional().allow('').max(100);
 const state = Joi.string().optional().allow('').max(100);
 const zip = Joi.string().optional().allow('').max(20);
 const address = Joi.string().optional().allow('').max(1000);
-// const userId = Joi.number().integer();
-// const profileId = Joi.number().integer();
-// const isNew = Joi.boolean();
+const userId = Joi.number().integer();
+const profileId = Joi.number().integer();
+const isNew = Joi.boolean();
 
 const getOwnerSchemaById = Joi.object({
     id: id.required(),
@@ -28,6 +28,11 @@ const getOwnerSchemaByForm = Joi.object({
     lastName,
     email,
     userId
+});
+
+const getOwnerSchemaByDni = Joi.object({
+    dni,
+    isNew
 });
 
 const createOwnerSchema = Joi.object({
@@ -46,8 +51,6 @@ const createOwnerSchema = Joi.object({
     state,
     zip,
     address,
-    // userId: userId.required(),
-    // profileId: profileId.required()
 });
 
 const updateOwnerSchema = Joi.object({
@@ -72,6 +75,7 @@ const updateOwnerSchema = Joi.object({
 module.exports = {
     getOwnerSchemaById,
     getOwnerSchemaByForm,
+    getOwnerSchemaByDni,
     createOwnerSchema,
     updateOwnerSchema
 }

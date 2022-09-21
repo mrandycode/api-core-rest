@@ -12,12 +12,12 @@ class PetMedicalHistoryService {
     }
 
     async findOne(id) {
-        const petMedicalStories =
+        const petMedicalHistory =
             await models.PetMedicalHistory.findByPk(id);
-        if (!petMedicalStories) {
+        if (!petMedicalHistory) {
             throw boom.notFound('Profile not found');
         }
-        return petMedicalStories;
+        return petMedicalHistory;
     }
 
     async create(request) {

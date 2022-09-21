@@ -90,8 +90,7 @@ class ProfileService {
 
         delete profile.dataValues.userId;
 
-        // if (profile.dataValues.personalProfile.length > 0){
-        //     console.log(profile.dataValues,'profile.dataValuessasdasd' )
+        // if (profile.dataValues.personalProfile.length > 0){ 
         //     delete profile.dataValues.personalProfile[0].personalProfile.profile;
         // }
 
