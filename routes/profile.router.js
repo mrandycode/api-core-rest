@@ -105,7 +105,7 @@ router.post('/',
     passport.authenticate('jwt', { session: false }),
     validationHandler(createProfileSchema, 'body'),
     checkApiKey,
-    checkRoles('admin', 'customer', 'doctor'),
+    checkRoles('admin', 'customer', 'doctor', 'veterinary'),
     async (req, res, next) => {
         try {
             const body = req.body;

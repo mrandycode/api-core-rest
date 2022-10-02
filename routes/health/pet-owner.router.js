@@ -68,6 +68,24 @@ router.post('/get/limited',
     }
 );
 
+router.get('/:id',
+    passport.authenticate('jwt', { session: false }),
+    checkApiKey,
+    checkRoles('admin', 'veterinary'),
+    validationHandler(getOwnerSchemaById),
+    async (req, res, next) => {
+        const { id } = req.params;
+        try {
+            const rta = await service.findOne(id);
+            // utils.userTokenValidate(rta.profile.userId, req.user.sub);
+            res.json(rta);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+
 router.post('/get/by/dni',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,

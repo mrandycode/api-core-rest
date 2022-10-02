@@ -22,7 +22,7 @@ class HealthProfileService {
         return healthProfile;
     }
 
-    async create(request) {    
+    async create(request) {
         let response;
         const newHealthProfile = await models.HealthProfile.create(request);
         if (newHealthProfile) {

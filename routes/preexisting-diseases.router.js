@@ -28,7 +28,7 @@ router.get('/',
 router.get('/:id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'customer', 'doctor'),
+    checkRoles('admin', 'customer', 'doctor', 'veterinary'),
     validationHandler(getPreexistingDiseaseSchemaById),
     async (req, res, next) => {
         const { id } = req.params;
@@ -44,7 +44,7 @@ router.post('/',
     passport.authenticate('jwt', { session: false }),
     // validationHandler(createPreexistingDiseaseSchema, 'body'),
     checkApiKey,
-    checkRoles('admin', 'customer', 'doctor'),
+    checkRoles('admin', 'customer', 'doctor', 'veterinary'),
     async (req, res, next) => {
         try {
             const body = req.body;
@@ -60,7 +60,7 @@ router.patch('/',
     passport.authenticate('jwt', { session: false }),
     // validationHandler(getPreexistingDiseaseSchemaById, 'params'),
     // validationHandler(updatePreexistingDiseaseSchema, 'body'),
-    checkRoles('admin', 'customer', 'dotocr'),
+    checkRoles('admin', 'customer', 'doctor', 'veterinary'),
     async (req, res, next) => {
         try {
             const body = req.body;
@@ -78,7 +78,7 @@ router.delete('/',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
     validationHandler(deletePreexistingDiseaseSchema, 'body'),
-    checkRoles('admin', 'customer', 'doctor'),
+    checkRoles('admin', 'customer', 'doctor', 'veterinary'),
     async (req, res, next) => {
         try {
             const body = req.body;

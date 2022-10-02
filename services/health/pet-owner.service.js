@@ -17,6 +17,16 @@ class PetOwnerService {
         return response;
     }
 
+    async findOne(id) {
+        const petOwner = await models.PetOwner.findByPk(id, {
+            // include: ['profile']
+        });
+        if (!petOwner) {
+            throw boom.notFound('NOT_FOUND');
+        }
+        return petOwner;
+    }
+
     // async getPetPatientProfilesByOwnerDni(request, req) {
     //     // aquí va la magia de agrupamiento dependiendo del veterinario
     //     const petPatientProfilesByOwner =
@@ -52,13 +62,13 @@ class PetOwnerService {
         if (!request.isNew) {
             filterFinal = filterProfileNotNew;
         } else {
-            filterFinal = filterProfileNew;
+            filterFinal = filterProfileNotNew;
         }
 
         let filterProfiles = [{
             model: models.PetPatientProfile,
             as: 'petPatientProfiles',
-            include: [{
+            include: [...constants.PET_PATIENT_PROFILE, {
                 model: models.HealthProfile,
                 as: 'healthProfiles',
                 include: ['profile', {
@@ -68,7 +78,7 @@ class PetOwnerService {
                 }]
             }]
         }];
-       
+
         if (!request.isNew) {
             options = {
                 where: {
@@ -79,25 +89,42 @@ class PetOwnerService {
             }
         } else {
             const options_ = {
+                // where: {
+                //     '$petPatientProfiles.healthProfiles.profile.user_id$': request.userId,
+                // },
                 where: {
-                    '$petPatientProfiles.healthProfiles.profile.user_id$': request.userId,
+                    [Op.or]: operatorOr,
+                    [Op.and]: { '$petPatientProfiles.healthProfiles.profile.user_id$': request.userId },
                 },
                 include: filterProfiles, raw: true
             }
 
             const myProfiles =
                 await models.PetOwner.findAll(options_);
+                
             let ids =
                 myProfiles.map(profile => {
-                    return profile.id
+                    return profile['petPatientProfiles.id']
+
                 });
             options = {
                 where: {
-                    [Op.or]: operatorOr,
-                    [Op.and]: { '$healthProfiles.profile.user_id$': { [Op.ne]: request.userId } },
-                    [Op.and]: { '$healthProfiles.pet_patient_Id$': { [Op.notIn]: ids } },
+                    [Op.or]: [{ dni: request.dni || null }],
+                    // [Op.or]: [{ email: request.email || null }],
+                    // [Op.and]: { '$healthProfiles.profile.user_id$': request.userId },
+                    //  [Op.and]: { '$petPatientProfiles.healthProfiles.pet_patient_Id$': { [Op.notIn]: ids } },
                 },
-                include: filterProfiles
+                include: [{
+                    model: models.PetPatientProfile,
+                    as: 'petPatientProfiles',
+                    include: [{
+                        model: models.HealthProfile,
+                        as: 'healthProfiles',
+                        where: {
+                            [Op.and]: { '$petPatientProfiles.healthProfiles.pet_patient_Id$': { [Op.notIn]: ids } }
+                        }
+                    }]
+                }]
             }
         }
 

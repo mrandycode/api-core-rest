@@ -13,9 +13,8 @@ const age = Joi.string().optional().allow('').max(20);
 const reward = Joi.boolean().optional().allow(false);
 const petOwnerId = Joi.number().integer();
 const userId = Joi.number().integer();
-
-// const profileId = Joi.number().integer();
-// const isNew = Joi.boolean();
+const profileId = Joi.number().integer();
+const isNew = Joi.boolean();
 
 const getPetPatientProfileSchemaById = Joi.object({
     id: id,
@@ -36,7 +35,7 @@ const createPetPatientProfileSchema = Joi.object({
     reward,
     petOwnerId: petOwnerId.required(),
     userId: userId.required(),
-    // profileId: profileId.required()
+    profileId: profileId.required()
 });
 
 const updatePetProfileProfileSchema = Joi.object({
@@ -53,7 +52,7 @@ const updatePetProfileProfileSchema = Joi.object({
     reward,
     petOwnerId: petOwnerId.required(),
     userId: userId.required(),
-    // profileId
+    profileId
 });
 
 

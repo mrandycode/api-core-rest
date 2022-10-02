@@ -28,7 +28,7 @@ router.get('/',
 router.get('/:id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'customer', 'doctor'),
+    checkRoles('admin', 'customer', 'doctor', 'veterinary'),
     validationHandler(getAllergySchemaById),
     async (req, res, next) => {
         const { id } = req.params;
@@ -44,7 +44,7 @@ router.post('/',
     passport.authenticate('jwt', { session: false }),
     // validationHandler(createAllergySchema, 'body'),
     checkApiKey,
-    checkRoles('admin', 'customer', 'doctor'),
+    checkRoles('admin', 'customer', 'doctor', 'veterinary'),
     async (req, res, next) => {
         try {
             const body = req.body;
@@ -60,7 +60,7 @@ router.patch('/',
     passport.authenticate('jwt', { session: false }),
     // validationHandler(getAllergySchemaById, 'params'),
     // validationHandler(updateAllergySchema, 'body'),
-    checkRoles('admin', 'customer', 'doctor'),
+    checkRoles('admin', 'customer', 'doctor', 'veterinary'),
     async (req, res, next) => {
         try {
             const body = req.body;
@@ -77,7 +77,7 @@ router.delete('/',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
     validationHandler(deleteAllergySchema, 'body'),
-    checkRoles('admin', 'customer', 'doctor'),
+    checkRoles('admin', 'customer', 'doctor', 'veterinary'),
     async (req, res, next) => {
         try {
             const body = req.body;

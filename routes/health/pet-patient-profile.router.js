@@ -102,7 +102,7 @@ router.post('/',
                 petPatientProfileId: id,
                 profileId,
             };
-            // await healthProfileService.create(reqHealth);
+            await healthProfileService.create(reqHealth);
             res.status(201).json(petPatientProfile);
         } catch (error) {
             next(error);
