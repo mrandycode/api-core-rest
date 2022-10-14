@@ -55,6 +55,7 @@ const createOwnerSchema = Joi.object({
 
 const updateOwnerSchema = Joi.object({
     id: id.required(),
+    country,
     name,
     lastName,
     image,

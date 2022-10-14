@@ -17,6 +17,19 @@ class PetOwnerService {
         return response;
     }
 
+
+    async update(body) {
+        const { id } = body
+        const petOwner = await this.findOne(id);
+        if (petOwner) {
+            const response = await models.PetOwner.update(body,
+                { where: { id: id } });
+            return response;
+        } else {
+            return [0]
+        }
+    }
+
     async findOne(id) {
         const petOwner = await models.PetOwner.findByPk(id, {
             // include: ['profile']
@@ -87,7 +100,7 @@ class PetOwnerService {
                 },
                 include: filterProfiles
             }
-        } else {
+
             const options_ = {
                 // where: {
                 //     '$petPatientProfiles.healthProfiles.profile.user_id$': request.userId,
@@ -96,12 +109,13 @@ class PetOwnerService {
                     [Op.or]: operatorOr,
                     [Op.and]: { '$petPatientProfiles.healthProfiles.profile.user_id$': request.userId },
                 },
-                include: filterProfiles, raw: true
+                include: filterProfiles,
+                raw: true
             }
 
             const myProfiles =
                 await models.PetOwner.findAll(options_);
-                
+
             let ids =
                 myProfiles.map(profile => {
                     return profile['petPatientProfiles.id']
@@ -121,10 +135,63 @@ class PetOwnerService {
                         model: models.HealthProfile,
                         as: 'healthProfiles',
                         where: {
+                            [Op.and]: { '$petPatientProfiles.healthProfiles.pet_patient_Id$': { [Op.in]: ids } }
+                        }
+                    }]
+                }]
+            }
+        } else {
+            const options_ = {
+                // where: {
+                //     '$petPatientProfiles.healthProfiles.profile.user_id$': request.userId,
+                // },
+                where: {
+                    [Op.or]: operatorOr,
+                    [Op.and]: { '$petPatientProfiles.healthProfiles.profile.user_id$': request.userId },
+                },
+                include: filterProfiles,
+                raw: true
+            }
+
+            const myProfiles =
+                await models.PetOwner.findAll(options_);
+
+            let ids =
+                myProfiles.map(profile => {
+                    return profile['petPatientProfiles.id']
+
+                });
+
+            /** *
+             * Premisas: Query dinámico 
+             * 1- Query dinamico para seleccionar solo perfiles que no tenga 
+             *    un veterinario asociado cuando es un PIN-ID nuevo  
+             * 2- Query dinamico para seleccionar solo perfiles de veteriniarios cuando no es nuevo 
+             * **/
+
+            let include = [];
+            if (ids && ids.length > 0) {
+                include = [{
+                    model: models.PetPatientProfile,
+                    as: 'petPatientProfiles',
+                    include: [{
+                        model: models.HealthProfile,
+                        as: 'healthProfiles',
+                        where: {
                             [Op.and]: { '$petPatientProfiles.healthProfiles.pet_patient_Id$': { [Op.notIn]: ids } }
                         }
                     }]
                 }]
+            }
+
+            options = {
+                where: {
+                    [Op.or]: [{ dni: request.dni || null }],
+                    // [Op.or]: [{ email: request.email || null }],
+                    // [Op.and]: { '$petPatientProfiles.healthProfiles.profile.user_id$': request.userId },
+                    //  [Op.and]: { '$petPatientProfiles.healthProfiles.pet_patient_Id$': { [Op.notIn]: ids } },
+                },
+                include
             }
         }
 
@@ -138,5 +205,6 @@ class PetOwnerService {
         return petPatientProfiles;
     }
 }
+
 
 module.exports = PetOwnerService;

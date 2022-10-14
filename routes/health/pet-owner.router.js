@@ -85,7 +85,6 @@ router.get('/:id',
     }
 );
 
-
 router.post('/get/by/dni',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
@@ -131,16 +130,6 @@ router.post('/',
             const body = req.body;
             res.statusMessage = req.t('CREATED_PROFILE');
             const petOwner = await service.create(body);
-            // Se crea de una vez el perfil pivote de salud.
-            // const { country, id } = petPatientProfile;
-            // const { profileId } = body;
-            // const reqHealth = {
-            //     id: 0,
-            //     country,
-            //     petPatientProfileId: id,
-            //     profileId,
-            // };
-            // await healthProfileService.create(reqHealth);
             res.status(201).json(petOwner);
         } catch (error) {
             next(error);
@@ -150,32 +139,14 @@ router.post('/',
 
 router.patch('/',
     passport.authenticate('jwt', { session: false }),
-    // validationHandler(updatePetProfileProfileSchema, 'body'),
+    checkApiKey,
+    validationHandler(updateOwnerSchema, 'body'),
     checkRoles('admin', 'veterinary'),
     async (req, res, next) => {
         try {
-           
-            // todo: solucionar el tema para guardar el healt profile. lo más seguro es que haya que agregar nuevo campo
-            const body = req.body;
-            // const { id, profileId } = body;
-            // const personalPatientProfile = await service.update(profileId);
-            // const userId = profile.user.id;
-            // utils.userTokenValidate(userId, req.user.sub);
+            const { body } = req;
             res.statusMessage = req.t('UPDATED');
             const petPatientProfile = await service.update(body);
-
-            // if (body.isNew) {
-            //     const { country, id } = personalPatientProfile;
-            //     const { profileId } = body;
-            //     const reqHealth = {
-            //         id: 0,
-            //         country,
-            //         personalPatientProfileId: id,
-            //         profileId,
-            //     };
-            //     await healthProfileService.create();
-            // }
-
             res.status(201).json(await addToHealthProfile(body, petPatientProfile));
         } catch (error) {
             next(error);
