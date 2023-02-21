@@ -1,51 +1,64 @@
-const boom = require('@hapi/boom');
-const { models } = require('../../libs/sequelize');
+const boom = require('@hapi/boom')
+const { models } = require('../../libs/sequelize')
 // const constants = require('../shared/constants');
 
 class PetMedicalHistoryService {
-    constructor() { }
+    constructor() {}
 
     async find() {
-        const petMedicalStories =
-            await models.PetMedicalHistory.findAll();
-        return petMedicalStories;
+        const petMedicalStories = await models.PetMedicalHistory.findAll()
+        return petMedicalStories
     }
 
     async findOne(id) {
-        const petMedicalStories =
-            await models.PetMedicalHistory.findByPk(id);
+        const petMedicalStories = await models.PetMedicalHistory.findByPk(id)
         if (!petMedicalStories) {
-            throw boom.notFound('Profile not found');
+            throw boom.notFound('Profile not found')
         }
-        return petMedicalStories;
+        return petMedicalStories
+    }
+
+    async findByPatient(id) {
+        const petMedicalStories = await models.PetMedicalHistory.findAll({
+            where: { petPatientProfileId: id },
+            order: [['appointmentDate', 'DESC']],
+        })
+        if (!petMedicalStories) {
+            throw boom.notFound('Profile not found')
+        }
+        return petMedicalStories
     }
 
     async create(request) {
-        let response;
-        const newPetMedicalHistory =
-            await models.PetMedicalHistory.create(request);
+        let response
+        const newPetMedicalHistory = await models.PetMedicalHistory.create(
+            request
+        )
         if (newPetMedicalHistory) {
-            response = await this.findOne(newPetMedicalHistory.id);
+            response = await this.findOne(newPetMedicalHistory.id)
         }
-        return response;
+        return response
     }
-    
 
     async update(id, request) {
-        const petMedicalHistory = await this.findOne(id);
+        const petMedicalHistory = await this.findOne(id)
         if (petMedicalHistory) {
-            const response = await models.PetMedicalHistory.update(request,
-                { where: { id: request.id } });
-            return response;
+            const response = await models.PetMedicalHistory.update(request, {
+                where: { id: request.id },
+            })
+            return response
         } else {
             return [0]
         }
     }
 
     async delete(id) {
-        const petMedicalHistory = await this.findOne(id);
-        await petMedicalHistory.destroy();
-        return { response: true };
+        const petMedicalHistory = await this.findOne(id)
+        if (!petMedicalHistory) {
+            throw boom.notFound('Profile not found')
+        }
+        await petMedicalHistory.destroy()
+        return true
     }
 }
-module.exports = PetMedicalHistoryService;
+module.exports = PetMedicalHistoryService
