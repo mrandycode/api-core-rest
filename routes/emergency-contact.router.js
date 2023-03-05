@@ -1,96 +1,100 @@
-const express = require('express');
-const EmergencyContactService = require('../services/emergency-contact.service');
-const { getEmergencyContactSchemaById,
-    createEmergencyContactSchema, 
-    updateEmergencyContactSchema, 
-    deleteEmergencyContactSchema } = require('../schemas/emergency-contact.schema');
-const validationHandler = require('../middlewares/validator.handler');
-const utils = require('../shared/utils');
-const router = express.Router();
-const { checkApiKey, checkRoles } = require('../middlewares/auth.handler');
-const passport = require('passport');
-const service = new EmergencyContactService();
+const express = require('express')
+const EmergencyContactService = require('../services/emergency-contact.service')
+const {
+    getEmergencyContactSchemaById,
+    deleteEmergencyContactSchema,
+} = require('../schemas/emergency-contact.schema')
+const validationHandler = require('../middlewares/validator.handler')
+const utils = require('../shared/utils')
+const router = express.Router()
+const { checkApiKey, checkRoles } = require('../middlewares/auth.handler')
+const passport = require('passport')
+const service = new EmergencyContactService()
 
-router.get('/',
+router.get(
+    '/',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer', 'doctor', 'veterinary'),
     async (req, res, next) => {
         try {
-            res.json(await service.find());
+            res.json(await service.find())
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
-);
+)
 
-router.get('/:id',
+router.get(
+    '/:id',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer', 'doctor', 'veterinary'),
     validationHandler(getEmergencyContactSchemaById),
     async (req, res, next) => {
-        const { id } = req.params;
+        const { id } = req.params
         try {
-            res.json(await service.findOne(id));
+            res.json(await service.findOne(id))
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
-);
+)
 
-router.post('/',
+router.post(
+    '/',
     passport.authenticate('jwt', { session: false }),
     // validationHandler(createEmergencyContactSchema, 'body'),
     checkApiKey,
-    checkRoles('admin', 'customer'),
+    checkRoles('admin', 'customer', 'doctor', 'veterinary'),
     async (req, res, next) => {
         try {
-            const body = req.body;
-            res.statusMessage = req.t('CREATED');
-            res.status(201).json(await service.create(body));
+            const body = req.body
+            res.statusMessage = req.t('CREATED')
+            res.status(201).json(await service.create(body))
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
-);
+)
 
-router.patch('/',
+router.patch(
+    '/',
     passport.authenticate('jwt', { session: false }),
     // validationHandler(getEmergencyContactSchemaById, 'params'),
     // validationHandler(updateEmergencyContactSchema, 'body'),
     checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
-            const body = req.body;
-            const id = body['id'];
-            res.statusMessage = req.t('UPDATED');
-            res.status(201).json(await service.update(id, body));
+            const body = req.body
+            const id = body['id']
+            res.statusMessage = req.t('UPDATED')
+            res.status(201).json(await service.update(id, body))
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
-);
+)
 
-router.delete('/',
+router.delete(
+    '/',
     passport.authenticate('jwt', { session: false }),
     checkApiKey,
     validationHandler(deleteEmergencyContactSchema, 'body'),
     checkRoles('admin', 'customer'),
     async (req, res, next) => {
         try {
-            const body = req.body;
-            utils.userTokenValidate(body.userId, req.user.sub);
+            const body = req.body
+            utils.userTokenValidate(body.userId, req.user.sub)
 
             if (await service.delete(body.id)) {
-                res.statusMessage = req.t('DELETED');
-                res.status(201).json(true);
+                res.statusMessage = req.t('DELETED')
+                res.status(201).json(true)
             }
-
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
-);
+)
 
-module.exports = router;
+module.exports = router
