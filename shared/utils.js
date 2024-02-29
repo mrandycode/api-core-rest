@@ -45,7 +45,7 @@ function getEmailScanMe(user, token, scanme, req) {
         to: emails.toString(),
         subject: req.t('SCAN_ME'),
         text: 'Dar Click a el siguiente link para recuperar su contraseña ' + geolocation,
-        html: '<div style=\"display:flex; justify-content:center\"><img width=\"300px\" height=\"100px\" src=\"https://www.salvameid.com/assets/images/logo-banner.png\"></div><h1>Se ha escaneado uno de tus perfiles</h1> <p>Hola, ' + user.name + ', nuestro sistema ha detectado un escaneo de uno de tus perfiles.</p> <p>Nombre del perfil: ' + scanme.nameProfile + '<p> <p>Hora: ' + scanme.dateTimeOn + '</p> <p>Dispositivo identificado cómo: ' + scanme.hostname + '</p><p>Fue escaneado desde la IP: ' + scanme.ip + '</p> <p>Link para la ubicación: ' + geolocation + ' </p> <p>Se envió este mensaje a tus contactos de emergencia con correo registrado.<p> <p>Muchas gracias por preferirnos!</p> </body> </html>'
+        html: '<div style=\"display:flex; justify-content:center\"><img width=\"300px\" height=\"100px\" src=\"https://www.salvameid.com/assets/images/logo-banner.png\"></div><h1>Se ha escaneado uno de tus perfiles</h1> <p>Hola, ' + user.name + ', nuestro sistema ha detectado un escaneo de uno de tus perfiles.</p> <p>Nombre del perfil: ' + scanme.nameProfile + '<p> <p>Hora: ' + scanme.dateTimeOn + '</p> <p>Dispositivo identificado cómo: www.salvameid.com </p><p>Fue escaneado desde la IP: ' + scanme.ip + '</p> <p>Link para la ubicación: ' + geolocation + ' </p> <p>Se envió este mensaje a tus contactos de emergencia con correo registrado.<p> <p>Muchas gracias por preferirnos!</p> </body> </html>'
     }
 
     return setBodyEmail(body);
